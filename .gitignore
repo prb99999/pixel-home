@@ -1,0 +1,11 @@
+.DS_Store
+*.psd
+.wrangler/
+node_modules/
+.env
+.env.*
+
+# 主页未引用的旧模板资源（体积大）
+assets/img/
+libs/
+docs/
