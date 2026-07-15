@@ -678,17 +678,15 @@
     .stat-lines { font-size: 13px; color: var(--mute); }
     .stat-lines p { margin: 0 0 6px; }
     .stat-lines .ok { color: var(--lime); }
-    /* Uptime Kuma 徽章 */
-    .kuma-link {
+    /* Uptime Kuma 徽章：仅展示，不跳转公开状态页 */
+    .kuma-caption {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       margin-bottom: 8px;
       font-size: 10px;
-      text-decoration: none !important;
-      color: var(--cyan) !important;
+      color: var(--mute);
     }
-    .kuma-link:hover { color: var(--lime) !important; }
     .kuma-list {
       display: grid;
       grid-template-columns: 1fr;
@@ -702,16 +700,10 @@
       background: #0d0d0f;
       border: 3px solid #3c3c41;
       padding: 10px;
-      text-decoration: none !important;
-      color: inherit !important;
-      cursor: pointer;
-      transition: border-color 0.1s steps(2), transform 0.1s steps(2);
+      color: inherit;
+      cursor: default;
       min-height: 0;
-    }
-    .kuma-card:hover {
-      border-color: var(--gold);
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #0d0d0f;
+      pointer-events: none; /* 徽章图也不被点穿 */
     }
     .kuma-card .kuma-name {
       display: flex;
@@ -737,6 +729,7 @@
       image-rendering: auto;
       vertical-align: middle;
       border: 2px solid #1a1c2c;
+      pointer-events: none;
     }
     .kuma-tip {
       margin-top: 10px;
@@ -1161,24 +1154,14 @@
           <span class="tag">KUMA</span>
         </div>
         <div id="uptime-badge" class="stat-lines">
-          <a class="kuma-link" href="https://status.prb9.top/status/a" target="_blank" rel="noopener noreferrer">
-            <i class="fa-solid fa-heart-pulse"></i>
-            status.prb9.top/status/a
-            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:9px"></i>
-          </a>
+          <div class="kuma-caption">
+            <i class="fa-solid fa-heart-pulse" style="color:var(--lime)"></i>
+            STATUS · BADGES ONLY
+          </div>
 
-          <!--
-            公开状态页：https://status.prb9.top/status/a
-            ID 1 = 股票分析 · ID 2 = 主机(103.185.248.62)
-          -->
+          <!-- 仅拉取徽章图，不链到公开状态页（避免暴露主机信息） -->
           <div class="kuma-list">
-            <a
-              class="kuma-card"
-              id="kuma-card-2"
-              href="https://status.prb9.top/status/a"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <div class="kuma-card" id="kuma-card-2">
               <div class="kuma-name">
                 <span id="kuma-name-2">主机</span>
                 <small>ID 2</small>
@@ -1190,17 +1173,12 @@
                   alt="主机"
                   loading="lazy"
                   referrerpolicy="no-referrer"
+                  draggable="false"
                 />
               </div>
-            </a>
+            </div>
 
-            <a
-              class="kuma-card"
-              id="kuma-card-1"
-              href="https://status.prb9.top/status/a"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <div class="kuma-card" id="kuma-card-1">
               <div class="kuma-name">
                 <span id="kuma-name-1">股票分析</span>
                 <small>ID 1</small>
@@ -1212,9 +1190,10 @@
                   alt="股票分析"
                   loading="lazy"
                   referrerpolicy="no-referrer"
+                  draggable="false"
                 />
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </section>
@@ -1296,7 +1275,6 @@
       // 2 = 主机      https://status.prb9.top/dashboard/2
       kuma: {
         base: 'https://status.prb9.top',
-        statusPage: 'https://status.prb9.top/status/a',
         monitors: [
           { id: 2, name: '主机', label: '主机' },
           { id: 1, name: '股票分析', label: '股票分析' },
@@ -1403,17 +1381,14 @@
       }
     }
 
-    /** 绑定 Kuma 徽章；点击去公开状态页 status/a */
+    /** 绑定 Kuma 徽章（只显示，不跳转状态页） */
     function bindKuma() {
-      const { base, statusPage, monitors } = SITE_CONFIG.kuma;
+      const { base, monitors } = SITE_CONFIG.kuma;
       monitors.forEach((m) => {
-        const card = document.getElementById(`kuma-card-${m.id}`);
         const nameEl = document.getElementById(`kuma-name-${m.id}`);
         const img = document.getElementById(`kuma-badge-${m.id}`);
-        if (card) card.href = statusPage;
         if (nameEl) nameEl.textContent = m.name;
         if (img) {
-          // 加时间戳避免浏览器缓存旧的 N/A 徽章
           img.src = `${base}/api/badge/${m.id}/status?label=${encodeURIComponent(m.label)}&_=${Date.now()}`;
           img.alt = m.name;
         }
