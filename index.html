@@ -131,6 +131,28 @@
       font-size: 13px;
     }
     .sky-icon { font-size: 16px; animation: bob 1.6s steps(2) infinite; }
+    .meta-chips {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.4);
+      border: 3px solid #0d0d0f;
+      font-size: 12px;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .meta-chip .ic { font-size: 14px; animation: bob 1.6s steps(2) infinite; }
+    .meta-chip .dim { color: var(--mute); }
+    .meta-chip.wx .ic { color: var(--cyan); }
+    .meta-chip.jq { color: var(--lime); }
+    .meta-chip.moon { color: var(--gold); }
     @keyframes bob {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-3px); }
@@ -172,7 +194,8 @@
         grid-template-areas:
           "profile links"
           "status music"
-          "quote quote";
+          "quote quote"
+          "arcade arcade";
         gap: 14px;
       }
       #profile { grid-area: profile; }
@@ -180,17 +203,19 @@
       #status { grid-area: status; }
       #music { grid-area: music; }
       #quote { grid-area: quote; }
+      #arcade { grid-area: arcade; }
     }
 
-    /* 桌面宽屏：两行铺满，去掉留言区后更疏朗 */
+    /* 桌面宽屏 */
     @media (min-width: 1200px) {
       .grid {
         grid-template-columns: 1.55fr 0.95fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr 1fr auto;
         gap: 14px;
         grid-template-areas:
           "profile profile links status"
-          "profile profile music quote";
+          "profile profile music quote"
+          "arcade arcade arcade arcade";
         min-height: calc(100vh - 120px);
       }
     }
@@ -927,6 +952,125 @@
     .quote-refresh:hover { background: var(--lime); }
     .quote-refresh:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #0d0d0f; }
 
+    /* ARCADE：宠物 + 每日签 */
+    .arcade-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      flex: 1;
+      min-height: 0;
+    }
+    @media (min-width: 720px) {
+      .arcade-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .arcade-card {
+      background: #0d0d0f;
+      border: 3px solid #3c3c41;
+      padding: 12px;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .arcade-card .label {
+      color: var(--mute);
+      font-size: 12px;
+    }
+    .pet-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex: 1;
+    }
+    .pet-sprite {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+      border: 3px solid #0d0d0f;
+      box-shadow: 3px 3px 0 #3c3c41;
+      cursor: pointer;
+      position: relative;
+      background: #1a1c2c;
+      animation: bob 1.2s steps(2) infinite;
+      padding: 0;
+      font: inherit;
+    }
+    .dim { color: var(--mute); }
+    .pet-sprite[data-mood="hungry"] { filter: saturate(0.6); animation-duration: 2.2s; }
+    .pet-sprite[data-mood="sleepy"] { filter: brightness(0.85); }
+    .pet-sprite[data-mood="happy"] { filter: saturate(1.2); }
+    .pet-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      line-height: 1;
+      user-select: none;
+    }
+    .pet-meta { flex: 1; min-width: 0; }
+    .pet-meta .name {
+      color: var(--lime);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .pet-meta .line {
+      color: var(--mute);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .pet-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pet-actions button,
+    .oracle-draw {
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      color: #0d0d0f;
+      background: var(--gold);
+      border: 3px solid #0d0d0f;
+      box-shadow: 2px 2px 0 #0d0d0f;
+      padding: 6px 10px;
+    }
+    .pet-actions button:hover,
+    .oracle-draw:hover { background: var(--lime); }
+    .pet-actions button:active,
+    .oracle-draw:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #0d0d0f;
+    }
+    .pet-actions .secondary { background: var(--cyan); }
+    .oracle-body { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .oracle-result {
+      flex: 1;
+      background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
+      border: 3px solid var(--cyan);
+      padding: 12px;
+      min-height: 72px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .oracle-result .rarity {
+      display: inline-block;
+      margin-bottom: 6px;
+      padding: 2px 6px;
+      border: 2px solid #0d0d0f;
+      font-size: 11px;
+      color: #0d0d0f;
+    }
+    .oracle-result .rarity.N { background: #8b9bb4; }
+    .oracle-result .rarity.R { background: var(--cyan); }
+    .oracle-result .rarity.SR { background: var(--gold); }
+    .oracle-result .rarity.SSR { background: var(--pink); color: #fff; }
+    .oracle-hint { color: var(--mute); font-size: 11px; }
+
     footer.site-foot {
       margin-top: 10px;
       text-align: center;
@@ -977,25 +1121,7 @@
     }
 
     .sprite {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      width: 40px;
-      height: 40px;
-      z-index: 40;
-      pointer-events: none;
-      image-rendering: pixelated;
-      animation: patrol 14s steps(1) infinite, bob 0.8s steps(2) infinite;
-      background:
-        linear-gradient(var(--orange) 0 0) 10px 0 / 20px 5px no-repeat,
-        linear-gradient(var(--orange) 0 0) 5px 5px / 30px 5px no-repeat,
-        linear-gradient(#f7c5a8 0 0) 10px 10px / 20px 10px no-repeat,
-        linear-gradient(#0d0d0f 0 0) 12px 12px / 5px 5px no-repeat,
-        linear-gradient(#0d0d0f 0 0) 22px 12px / 5px 5px no-repeat,
-        linear-gradient(var(--cyan) 0 0) 10px 20px / 20px 10px no-repeat,
-        linear-gradient(#3c3c41 0 0) 10px 30px / 8px 8px no-repeat,
-        linear-gradient(#3c3c41 0 0) 22px 30px / 8px 8px no-repeat;
-      filter: drop-shadow(2px 2px 0 #0d0d0f);
+      display: none; /* ARCADE 宠物上位，隐藏旧巡逻装饰 */
     }
     @keyframes patrol {
       0% { right: 16px; }
@@ -1018,9 +1144,23 @@
       <div class="brand">
         <h1>★ PIXEL HOME ★</h1>
         <span class="sub">save #01</span>
-        <div class="sky-chip" id="sky-chip" title="跟随本地时间变化">
-          <span class="sky-icon" id="sky-icon">☀</span>
-          <span id="sky-text">DAYTIME</span>
+        <div class="meta-chips" id="meta-chips">
+          <div class="meta-chip" id="sky-chip" title="跟随本地时间变化">
+            <span class="ic" id="sky-icon">☀</span>
+            <span id="sky-text">DAYTIME</span>
+          </div>
+          <div class="meta-chip wx" id="wx-chip" title="Open-Meteo">
+            <span class="ic" id="wx-icon">…</span>
+            <span id="wx-text"><span class="dim">天气</span></span>
+          </div>
+          <div class="meta-chip jq" id="jq-chip" title="二十四节气">
+            <span class="ic">节</span>
+            <span id="jq-text">…</span>
+          </div>
+          <div class="meta-chip moon" id="moon-chip" title="月相">
+            <span class="ic" id="moon-icon">☾</span>
+            <span id="moon-text">…</span>
+          </div>
         </div>
       </div>
       <nav class="topnav" aria-label="sections">
@@ -1029,6 +1169,7 @@
         <a href="#status">STATUS</a>
         <a href="#music">MUSIC</a>
         <a href="#quote">QUOTE</a>
+        <a href="#arcade">ARCADE</a>
       </nav>
     </header>
 
@@ -1246,6 +1387,43 @@
           </div>
         </div>
       </section>
+
+      <section id="arcade" class="nes-container is-dark panel">
+        <div class="panel-head">
+          <span>◆ ARCADE</span>
+          <span class="tag">PET · ORACLE</span>
+        </div>
+        <div class="arcade-grid">
+          <div class="arcade-card" id="pet-card">
+            <div class="label">◆ COMPANION</div>
+            <div class="pet-row">
+              <button type="button" class="pet-sprite" id="pet-sprite" data-mood="happy" title="点我摸摸">
+                <span class="pet-face" id="pet-face">👾</span>
+              </button>
+              <div class="pet-meta">
+                <div class="name" id="pet-name">BITLING</div>
+                <div class="line" id="pet-line">待机中…</div>
+                <div class="pet-actions">
+                  <button type="button" id="pet-feed">喂食</button>
+                  <button type="button" class="secondary" id="pet-play">玩耍</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="arcade-card" id="oracle-card">
+            <div class="label">◆ DAILY ORACLE</div>
+            <div class="oracle-body">
+              <div class="oracle-result" id="oracle-result">
+                <span class="dim">今日签未抽 · 点下面按钮</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+                <button type="button" class="oracle-draw" id="oracle-draw">抽今日签</button>
+                <span class="oracle-hint" id="oracle-hint">每天一签 · 与日期绑定</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-foot">
@@ -1297,6 +1475,12 @@
         pageSize: 4,
         maxLine: 2,
         actions: ['wish', 'do', 'collect'],
+      },
+      // 天气：Open-Meteo（可改坐标）
+      weather: {
+        lat: 36.67,
+        lon: 117.00,
+        label: '济南',
       },
     };
 
@@ -1476,6 +1660,248 @@
       }
     }
 
+    function wxCodeIcon(code) {
+      if (code === 0) return '☀';
+      if (code <= 3) return '⛅';
+      if (code <= 48) return '🌫';
+      if (code <= 67) return '🌧';
+      if (code <= 77) return '❄';
+      if (code <= 82) return '🌦';
+      if (code <= 99) return '⛈';
+      return '🌤';
+    }
+
+    async function loadWeather() {
+      const cfg = SITE_CONFIG.weather || {};
+      const iconEl = document.getElementById('wx-icon');
+      const textEl = document.getElementById('wx-text');
+      if (!iconEl || !textEl) return;
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${cfg.lat}&longitude=${cfg.lon}&current=temperature_2m,weather_code,apparent_temperature&timezone=Asia%2FShanghai`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('wx http');
+        const data = await res.json();
+        const cur = data.current || {};
+        const t = Math.round(cur.temperature_2m);
+        const feels = Math.round(cur.apparent_temperature);
+        iconEl.textContent = wxCodeIcon(cur.weather_code);
+        textEl.innerHTML = `${t}° <span class="dim">${cfg.label || ''} · 体感 ${feels}°</span>`;
+      } catch (_) {
+        iconEl.textContent = '·';
+        textEl.innerHTML = `<span class="dim">${cfg.label || '天气'} offline</span>`;
+      }
+    }
+
+    /** 二十四节气（近似公历日界，±1 天可接受） */
+    function getJieQi(date = new Date()) {
+      const terms = [
+        [1, 6, '小寒'], [1, 20, '大寒'],
+        [2, 4, '立春'], [2, 19, '雨水'],
+        [3, 6, '惊蛰'], [3, 21, '春分'],
+        [4, 5, '清明'], [4, 20, '谷雨'],
+        [5, 6, '立夏'], [5, 21, '小满'],
+        [6, 6, '芒种'], [6, 21, '夏至'],
+        [7, 7, '小暑'], [7, 23, '大暑'],
+        [8, 8, '立秋'], [8, 23, '处暑'],
+        [9, 8, '白露'], [9, 23, '秋分'],
+        [10, 8, '寒露'], [10, 23, '霜降'],
+        [11, 7, '立冬'], [11, 22, '小雪'],
+        [12, 7, '大雪'], [12, 22, '冬至'],
+      ];
+      const m = date.getMonth() + 1;
+      const d = date.getDate();
+      const key = m * 100 + d;
+      let cur = terms[terms.length - 1];
+      let next = terms[0];
+      for (let i = 0; i < terms.length; i += 1) {
+        const [tm, td] = terms[i];
+        const tkey = tm * 100 + td;
+        if (key >= tkey) {
+          cur = terms[i];
+          next = terms[(i + 1) % terms.length];
+        }
+      }
+      return { current: cur[2], next: next[2], nextDate: `${next[0]}/${next[1]}` };
+    }
+
+    function getMoonPhase(date = new Date()) {
+      const knownNew = Date.UTC(2000, 0, 6, 18, 14, 0);
+      const synodic = 29.53058867;
+      const days = (date.getTime() - knownNew) / 86400000;
+      const age = ((days % synodic) + synodic) % synodic;
+      const phase = age / synodic;
+      const table = [
+        [0.03, '🌑', '新月'],
+        [0.22, '🌒', '蛾眉月'],
+        [0.28, '🌓', '上弦月'],
+        [0.47, '🌔', '盈凸月'],
+        [0.53, '🌕', '满月'],
+        [0.72, '🌖', '亏凸月'],
+        [0.78, '🌗', '下弦月'],
+        [0.97, '🌘', '残月'],
+        [1.01, '🌑', '新月'],
+      ];
+      for (const [max, icon, name] of table) {
+        if (phase <= max) return { icon, name, age: age.toFixed(1) };
+      }
+      return { icon: '☾', name: '月相', age: '—' };
+    }
+
+    function renderCosmos() {
+      const jq = getJieQi();
+      const moon = getMoonPhase();
+      const jqEl = document.getElementById('jq-text');
+      const moonIcon = document.getElementById('moon-icon');
+      const moonText = document.getElementById('moon-text');
+      if (jqEl) jqEl.innerHTML = `${jq.current} <span class="dim">→ ${jq.next} ${jq.nextDate}</span>`;
+      if (moonIcon) moonIcon.textContent = moon.icon;
+      if (moonText) moonText.textContent = moon.name;
+    }
+
+    const PET_KEY = 'pixel-home-pet-v1';
+    const PET_FACES = { happy: '👾', hungry: '😿', sleepy: '😴', play: '🕹️' };
+
+    function loadPet() {
+      try {
+        return JSON.parse(localStorage.getItem(PET_KEY) || 'null') || {
+          hunger: 40,
+          mood: 70,
+          lastAction: Date.now(),
+        };
+      } catch (_) {
+        return { hunger: 40, mood: 70, lastAction: Date.now() };
+      }
+    }
+
+    function savePet(state) {
+      localStorage.setItem(PET_KEY, JSON.stringify(state));
+    }
+
+    function decayPet(state) {
+      const hours = Math.max(0, (Date.now() - (state.lastAction || Date.now())) / 3600000);
+      state.hunger = Math.min(100, state.hunger + hours * 4);
+      state.mood = Math.max(0, state.mood - hours * 2);
+      return state;
+    }
+
+    function petMoodOf(state) {
+      if (state.hunger > 75) return 'hungry';
+      if (state.mood < 30) return 'sleepy';
+      return 'happy';
+    }
+
+    function renderPet() {
+      let state = decayPet(loadPet());
+      savePet(state);
+      const mood = petMoodOf(state);
+      const sprite = document.getElementById('pet-sprite');
+      const face = document.getElementById('pet-face');
+      const line = document.getElementById('pet-line');
+      if (sprite) sprite.dataset.mood = mood;
+      if (face) face.textContent = PET_FACES[mood] || PET_FACES.happy;
+      if (line) {
+        line.textContent = `饱食 ${Math.round(100 - state.hunger)} · 心情 ${Math.round(state.mood)} · ${
+          mood === 'hungry' ? '想吃像素粮' : mood === 'sleepy' ? '有点困…' : '状态良好'
+        }`;
+      }
+    }
+
+    function petAct(kind) {
+      const state = decayPet(loadPet());
+      if (kind === 'feed') {
+        state.hunger = Math.max(0, state.hunger - 35);
+        state.mood = Math.min(100, state.mood + 8);
+      } else if (kind === 'play') {
+        state.mood = Math.min(100, state.mood + 22);
+        state.hunger = Math.min(100, state.hunger + 8);
+      } else {
+        state.mood = Math.min(100, state.mood + 10);
+      }
+      state.lastAction = Date.now();
+      savePet(state);
+      const face = document.getElementById('pet-face');
+      if (face) {
+        face.textContent = kind === 'play' ? PET_FACES.play : PET_FACES.happy;
+        setTimeout(renderPet, 450);
+      } else {
+        renderPet();
+      }
+    }
+
+    const ORACLE_POOL = [
+      { r: 'N', t: '今天适合整理桌面与未读邮件。' },
+      { r: 'N', t: '水位平稳，按原计划推进即可。' },
+      { r: 'N', t: '少刷一会短视频，多走路十分钟。' },
+      { r: 'R', t: '会碰到一份刚好用得上的资料。' },
+      { r: 'R', t: '晚上歌单运气不错，允许自己放松。' },
+      { r: 'R', t: '小工具派上用场的一天，记得备份。' },
+      { r: 'SR', t: '卡点之事将松动：试一次不同切法。' },
+      { r: 'SR', t: '有人想听听你的近况，回一句就好。' },
+      { r: 'SSR', t: '隐藏存档点出现：你会想起一件该完成的事。' },
+      { r: 'SSR', t: '稀有掉落：好运偏袒动手的人。' },
+    ];
+
+    function dayKey(d = new Date()) {
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    }
+
+    function hashStr(s) {
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i += 1) {
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function pickOracleForDay(key) {
+      const weights = { N: 50, R: 30, SR: 15, SSR: 5 };
+      const bag = [];
+      ORACLE_POOL.forEach((item, idx) => {
+        const w = weights[item.r] || 10;
+        for (let i = 0; i < w; i += 1) bag.push(idx);
+      });
+      const idx = bag[hashStr(key) % bag.length];
+      return ORACLE_POOL[idx];
+    }
+
+    function renderOracle(force) {
+      const key = `pixel-home-oracle:${dayKey()}`;
+      const box = document.getElementById('oracle-result');
+      const hint = document.getElementById('oracle-hint');
+      if (!box) return;
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem(key) || 'null'); } catch (_) {}
+      if (!saved && !force) {
+        box.innerHTML = '<span class="dim">今日签未抽 · 点下面按钮</span>';
+        if (hint) hint.textContent = '每天一签 · 与日期绑定';
+        return;
+      }
+      const item = saved || pickOracleForDay(dayKey());
+      if (!saved) localStorage.setItem(key, JSON.stringify(item));
+      box.innerHTML = `<span class="rarity ${item.r}">${item.r}</span><div>${item.t}</div>`;
+      if (hint) hint.textContent = `封印至明日 00:00 · ${dayKey()}`;
+    }
+
+    function bindArcade() {
+      document.getElementById('pet-feed')?.addEventListener('click', () => petAct('feed'));
+      document.getElementById('pet-play')?.addEventListener('click', () => petAct('play'));
+      document.getElementById('pet-sprite')?.addEventListener('click', () => petAct('pet'));
+      document.getElementById('oracle-draw')?.addEventListener('click', () => {
+        const key = `pixel-home-oracle:${dayKey()}`;
+        if (localStorage.getItem(key)) {
+          renderOracle(false);
+          const hint = document.getElementById('oracle-hint');
+          if (hint) hint.textContent = '今日已抽过 · 明天再来';
+          return;
+        }
+        renderOracle(true);
+      });
+      renderPet();
+      renderOracle(false);
+      setInterval(renderPet, 60_000);
+    }
+
     function bindKonami() {
       const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
       let progress = 0;
@@ -1505,9 +1931,13 @@
     setInterval(tickUptimeClock, 1000);
     updateSky();
     setInterval(updateSky, 60_000);
+    renderCosmos();
+    loadWeather();
+    setInterval(loadWeather, 30 * 60_000);
     rotateDialog();
     loadHitokoto();
     document.getElementById('quote-refresh')?.addEventListener('click', loadHitokoto);
+    bindArcade();
     bindKonami();
   </script>
 </body>
