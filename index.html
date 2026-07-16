@@ -282,10 +282,21 @@
       }
     }
 
+    .avatar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      flex-shrink: 0;
+      width: 140px;
+    }
+    @media (min-width: 1200px) {
+      .avatar-col { width: 168px; }
+    }
     .avatar-frame {
       position: relative;
-      width: 140px;
-      height: 140px;
+      width: 100%;
+      aspect-ratio: 1;
       padding: 8px;
       background:
         linear-gradient(45deg, #0d0d0f 25%, transparent 25%) -5px 0 / 10px 10px,
@@ -296,8 +307,66 @@
       border: 4px solid #0d0d0f;
       flex-shrink: 0;
     }
-    @media (min-width: 1200px) {
-      .avatar-frame { width: 168px; height: 168px; }
+    .char-plate {
+      background: #0d0d0f;
+      border: 3px solid #3c3c41;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-height: 0;
+    }
+    .char-plate .plate-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .char-plate .k { color: var(--mute); flex-shrink: 0; }
+    .char-plate .v {
+      color: var(--lime);
+      text-align: right;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .char-plate .v.gold { color: var(--gold); }
+    .char-plate .v.cyan { color: var(--cyan); }
+    .char-plate .online {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--lime);
+    }
+    .char-plate .online::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border: 2px solid #0d0d0f;
+      box-shadow: 0 0 0 1px var(--lime);
+      animation: lamp 1.1s steps(2) infinite;
+    }
+    .char-plate .mail-btn {
+      margin-top: auto;
+      display: block;
+      text-align: center;
+      text-decoration: none !important;
+      color: #0d0d0f !important;
+      background: var(--cyan);
+      border: 3px solid #0d0d0f;
+      box-shadow: 2px 2px 0 #3c3c41;
+      padding: 6px 4px;
+      font-size: 11px;
+    }
+    .char-plate .mail-btn:hover {
+      background: var(--lime);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 #3c3c41;
     }
     .avatar-frame img {
       width: 100%;
@@ -1285,15 +1354,36 @@
           <span class="tag">/profile</span>
         </div>
         <div class="profile-row">
-          <div class="avatar-frame">
-            <img
-              id="avatar"
-              src="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-night&flip=true&backgroundColor=262b44,3e2731,1a1c2c&shapeColor=41a6f6,a7f070,f4b41b,b55088,ef7d57"
-              alt="avatar"
-              width="152"
-              height="152"
-            />
-            <span class="save-lamp" title="online"></span>
+          <div class="avatar-col">
+            <div class="avatar-frame">
+              <img
+                id="avatar"
+                src="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-night&flip=true&backgroundColor=262b44,3e2731,1a1c2c&shapeColor=41a6f6,a7f070,f4b41b,b55088,ef7d57"
+                alt="avatar"
+                width="152"
+                height="152"
+              />
+              <span class="save-lamp" title="online"></span>
+            </div>
+            <div class="char-plate" aria-label="character plate">
+              <div class="plate-row">
+                <span class="k">SAVE</span>
+                <span class="v online">ONLINE</span>
+              </div>
+              <div class="plate-row">
+                <span class="k">JOB</span>
+                <span class="v">SELFHOST</span>
+              </div>
+              <div class="plate-row">
+                <span class="k">ZONE</span>
+                <span class="v cyan" id="zone-label">烟台·芝罘</span>
+              </div>
+              <div class="plate-row">
+                <span class="k">GOLD</span>
+                <span class="v gold" id="gold-label">0 G</span>
+              </div>
+              <a class="mail-btn" href="mailto:me@prb9.top" title="发邮件">✉ MAIL</a>
+            </div>
           </div>
           <div class="profile-meta">
             <div class="name-row">
@@ -1752,6 +1842,8 @@
       if (nums) nums.textContent = `${exp} / ${need}`;
       if (fill) fill.style.width = pct + '%';
       if (caption) caption.textContent = `EXP · DAY ${lv}`;
+      const gold = document.getElementById('gold-label');
+      if (gold) gold.textContent = `${days * 100 + hours * 4 + mins} G`;
     }
 
     function tickUptimeClock() {
@@ -1928,6 +2020,8 @@
         const feels = Math.round(cur.apparent_temperature);
         iconEl.textContent = wxCodeIcon(cur.weather_code);
         textEl.innerHTML = `${t}° <span class="dim">${label} · 体感 ${feels}°</span>`;
+        const zone = document.getElementById('zone-label');
+        if (zone) zone.textContent = label;
       } catch (_) {
         iconEl.textContent = '·';
         textEl.innerHTML = '<span class="dim">天气 offline</span>';
