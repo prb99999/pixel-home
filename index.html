@@ -3,9 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Panpan 的像素风个人主页" />
+  <meta name="description" content="Panpan 的像素风个人主页 · 工具箱、书影与 Arcade" />
   <meta name="theme-color" content="#1a1c2c" />
+  <meta name="author" content="panpan" />
   <title>Panpan · Pixel Home</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.gif" type="image/gif" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pixel Home" />
+  <meta property="og:url" content="https://prb9.top/" />
+  <meta property="og:title" content="Panpan · Pixel Home" />
+  <meta property="og:description" content="像素风个人主页 · DROP / PDF / PHOTO / STOCK，还有宠物与每日签。" />
+  <meta property="og:image" content="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-night&backgroundColor=262b44" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Panpan · Pixel Home" />
+  <meta name="twitter:description" content="像素风个人主页 · 工具箱、书影与 Arcade" />
 
   <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
   <link
@@ -121,16 +136,6 @@
       color: var(--mute);
       font-size: 13px;
     }
-    .sky-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      background: rgba(0,0,0,0.4);
-      border: 3px solid #0d0d0f;
-      font-size: 13px;
-    }
-    .sky-icon { font-size: 16px; animation: bob 1.6s steps(2) infinite; }
     .meta-chips {
       display: inline-flex;
       flex-wrap: wrap;
@@ -171,6 +176,7 @@
       padding: 8px 10px;
       font-size: 13px;
       box-shadow: 3px 3px 0 #0d0d0f;
+      flex-shrink: 0;
     }
     .topnav a:hover {
       color: var(--lime) !important;
@@ -501,12 +507,53 @@
     }
     .exp-fill {
       height: 100%;
-      width: 62%;
+      width: 0%;
       background: repeating-linear-gradient(90deg, var(--gold) 0 8px, #b88410 8px 11px);
+      transition: width 0.6s steps(12);
     }
-    /* 豆瓣 idouban：电影 | 书，吃满 profile 下半宽 */
-    .foot-strip.douban-strip {
+    /* 豆瓣：默认折叠，展开后再加载 */
+    .douban-fold {
       margin-top: 8px;
+      flex: 0 0 auto;
+      min-height: 0;
+      background: #0d0d0f;
+      border: 3px solid #3c3c41;
+      padding: 0;
+    }
+    .douban-fold[open] {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .douban-fold > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      color: #00b51d;
+      font-size: 12px;
+      user-select: none;
+    }
+    .douban-fold > summary::-webkit-details-marker { display: none; }
+    .douban-fold > summary .hint { color: var(--mute); font-size: 11px; }
+    .douban-fold > summary::after {
+      content: "▼";
+      color: var(--gold);
+      font-size: 10px;
+    }
+    .douban-fold[open] > summary::after { content: "▲"; }
+    .douban-fold-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+      padding: 0 8px 8px;
+    }
+    .foot-strip.douban-strip {
+      margin-top: 0;
       flex: 1 1 auto;
       min-height: 0;
       display: grid;
@@ -1120,25 +1167,42 @@
       cursor: pointer;
     }
 
-    .sprite {
-      display: none; /* ARCADE 宠物上位，隐藏旧巡逻装饰 */
-    }
-    @keyframes patrol {
-      0% { right: 16px; }
-      40% { right: calc(100% - 56px); }
-      50% { right: calc(100% - 56px); }
-      90% { right: 16px; }
-      100% { right: 16px; }
-    }
+    /* 移动端顶栏瘦身：只留天空+天气，导航横滑 */
     @media (max-width: 800px) {
-      .sprite { display: none; }
-      .topbar { box-shadow: 3px 3px 0 #0d0d0f; }
+      .topbar {
+        gap: 8px;
+        padding: 6px 8px;
+        box-shadow: 3px 3px 0 #0d0d0f;
+      }
+      .brand { gap: 8px; width: 100%; }
+      .brand .sub { display: none; }
+      .brand h1 { font-size: 13px; }
+      .meta-chips { gap: 6px; }
+      .meta-chip {
+        padding: 4px 7px;
+        font-size: 11px;
+      }
+      .meta-chip.jq,
+      .meta-chip.moon { display: none; }
+      .topnav {
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
+      .topnav::-webkit-scrollbar { display: none; }
+      .topnav a {
+        padding: 6px 8px;
+        font-size: 11px;
+        box-shadow: 2px 2px 0 #0d0d0f;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="sprite" aria-hidden="true"></div>
-
   <div class="wrap">
     <header class="topbar">
       <div class="brand">
@@ -1193,7 +1257,7 @@
           <div class="profile-meta">
             <div class="name-row">
               <h2>PANPAN</h2>
-              <span class="lv-badge">LV.26</span>
+              <span class="lv-badge" id="lv-badge">LV.1</span>
             </div>
             <div class="dialog" id="dialog">
               <span class="who">STATUS</span>
@@ -1227,35 +1291,43 @@
             </div>
             <div class="exp-row" aria-label="experience">
               <div class="label">
-                <span>EXP · NEXT LV</span>
-                <strong>1240 / 2000</strong>
+                <span id="exp-caption">EXP · NEXT LV</span>
+                <strong id="exp-nums">0 / 1440</strong>
               </div>
-              <div class="exp-track"><div class="exp-fill"></div></div>
+              <div class="exp-track"><div class="exp-fill" id="exp-fill"></div></div>
             </div>
-            <p class="douban-status" id="douban-status">豆瓣封面卡加载中（首次收录可能要等一会儿）…</p>
-            <div class="foot-strip douban-strip">
-              <div class="idouban-pane">
-                <div class="idouban-pane-head">
-                  <span class="brand"><i class="fa-brands fa-douban"></i> DOUBAN</span>
-                  <span class="kind">◆ MOVIE</span>
+            <details class="douban-fold" id="douban-fold">
+              <summary>
+                <span><i class="fa-brands fa-douban"></i> 书影 · DOUBAN</span>
+                <span class="hint" id="douban-summary-hint">点击展开</span>
+              </summary>
+              <div class="douban-fold-body">
+                <p class="douban-status" id="douban-status">展开后加载封面卡…</p>
+                <div class="foot-strip douban-strip">
+                  <div class="idouban-pane">
+                    <div class="idouban-pane-head">
+                      <span class="brand"><i class="fa-brands fa-douban"></i> DOUBAN</span>
+                      <span class="kind">◆ MOVIE</span>
+                    </div>
+                    <div id="idouban-movie" class="idouban-mount pixel-idouban"></div>
+                  </div>
+                  <div class="idouban-pane">
+                    <div class="idouban-pane-head">
+                      <a
+                        id="douban-link"
+                        href="https://www.douban.com/people/139105239/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="brand"
+                        style="text-decoration:none"
+                      ><i class="fa-brands fa-douban"></i> 主页 →</a>
+                      <span class="kind">◆ BOOK</span>
+                    </div>
+                    <div id="idouban-book" class="idouban-mount pixel-idouban"></div>
+                  </div>
                 </div>
-                <div id="idouban-movie" class="idouban-mount pixel-idouban"></div>
               </div>
-              <div class="idouban-pane">
-                <div class="idouban-pane-head">
-                  <a
-                    id="douban-link"
-                    href="https://www.douban.com/people/139105239/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="brand"
-                    style="text-decoration:none"
-                  ><i class="fa-brands fa-douban"></i> 主页 →</a>
-                  <span class="kind">◆ BOOK</span>
-                </div>
-                <div id="idouban-book" class="idouban-mount pixel-idouban"></div>
-              </div>
-            </div>
+            </details>
           </div>
         </div>
       </section>
@@ -1460,8 +1532,9 @@
       },
       // 名字下面状态框：写日常 / 心情 / 在干什么（轮播）
       statusLines: [
-        'PDF 工具箱 → ITEM BAG 里的 PDF。',
-        '证件照本地抠图 → ITEM BAG 里的 PHOTO。',
+        'DROP：手机电脑互传 → ITEM BAG。',
+        'PDF / PHOTO 工具都在 ITEM BAG。',
+        '底下 ARCADE 可喂宠物、抽今日签。',
         '主机与股票分析的灯都是绿的就好。',
         '今晚歌单：暗黑风摇摆。',
       ],
@@ -1523,12 +1596,22 @@
       } catch (_) { /* ignore */ }
     }
 
-    async function bindDouban() {
+    let doubanLoaded = false;
+
+    async function loadDoubanCards() {
+      if (doubanLoaded) return;
+      doubanLoaded = true;
       const cfg = SITE_CONFIG.douban || {};
       const status = document.getElementById('douban-status');
+      const hint = document.getElementById('douban-summary-hint');
       const link = document.getElementById('douban-link');
       if (link && cfg.profile) link.href = cfg.profile;
       if (!cfg.id || !status) return;
+
+      status.hidden = false;
+      status.classList.remove('ok', 'err');
+      status.textContent = '豆瓣封面卡加载中（首次收录可能要等一会儿）…';
+      if (hint) hint.textContent = '加载中…';
 
       await nudgeMouban(cfg.id);
 
@@ -1557,12 +1640,30 @@
         status.classList.add('ok');
         status.textContent =
           '封面来自 idouban / mouban · 若空白说明后台还在首次收录，过会儿刷新即可。';
+        if (hint) hint.textContent = '已展开';
         setTimeout(() => { status.hidden = true; }, 8000);
       } catch (err) {
+        doubanLoaded = false;
         status.classList.add('err');
         status.textContent = '豆瓣卡片加载失败，可点「主页 →」打开豆瓣。';
+        if (hint) hint.textContent = '加载失败 · 可再试';
         console.warn('[douban]', err);
       }
+    }
+
+    function bindDouban() {
+      const fold = document.getElementById('douban-fold');
+      const link = document.getElementById('douban-link');
+      const cfg = SITE_CONFIG.douban || {};
+      if (link && cfg.profile) link.href = cfg.profile;
+      if (!fold) return;
+      fold.addEventListener('toggle', () => {
+        if (fold.open) loadDoubanCards();
+        else {
+          const hint = document.getElementById('douban-summary-hint');
+          if (hint && doubanLoaded) hint.textContent = '已缓存 · 再点展开';
+        }
+      });
     }
 
     /** 绑定 Kuma 徽章（只显示，不跳转状态页） */
@@ -1581,6 +1682,22 @@
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
+    /** EXP：用本站运行时长推导等级（无独立后台数据） */
+    function renderExp(days, hours, mins) {
+      const lv = days + 1;
+      const exp = hours * 60 + mins; // 当天已过分钟 → 升下一级
+      const need = 1440;
+      const pct = Math.min(100, (exp / need) * 100);
+      const badge = document.getElementById('lv-badge');
+      const nums = document.getElementById('exp-nums');
+      const fill = document.getElementById('exp-fill');
+      const caption = document.getElementById('exp-caption');
+      if (badge) badge.textContent = `LV.${lv}`;
+      if (nums) nums.textContent = `${exp} / ${need}`;
+      if (fill) fill.style.width = pct + '%';
+      if (caption) caption.textContent = `EXP · DAY ${lv}`;
+    }
+
     function tickUptimeClock() {
       let diff = Math.max(0, Date.now() - new Date(SITE_CONFIG.launchAt));
       const days = Math.floor(diff / 86400000); diff %= 86400000;
@@ -1592,6 +1709,7 @@
       root.querySelector('[data-unit="hours"]').textContent = pad(hours);
       root.querySelector('[data-unit="mins"]').textContent = pad(mins);
       root.querySelector('[data-unit="secs"]').textContent = pad(secs);
+      renderExp(days, hours, mins);
     }
 
     function renderLaunchLabel() {
