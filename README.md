@@ -16,7 +16,7 @@ python3 -m http.server 8080
 
 | 占位 | 说明 |
 |------|------|
-| `https://YOUR-STOCK-SITE.example.com` | 股票分析站完整 URL（两处） |
+| `https://YOUR-STOCK-SITE.example.com` | 股票分析站完整 URL（ITEM BAG） |
 | `Panpan` | 显示名 |
 | `you@example.com` / `@you` | 联系方式 / GitHub |
 
