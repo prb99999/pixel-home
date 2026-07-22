@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Panpan 的像素风博客 · 静态存档与日常笔记" />
+  <meta name="theme-color" content="#1a1c2c" />
+  <meta name="author" content="panpan" />
+  <title>BLOG · Panpan · Pixel Home</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.gif" type="image/gif" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pixel Home" />
+  <meta property="og:url" content="https://prb9.top/blog/" />
+  <meta property="og:title" content="BLOG · Panpan · Pixel Home" />
+  <meta property="og:description" content="像素风静态博客 · 存档、笔记与基建碎碎念" />
+  <meta property="og:image" content="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-bear-jul26&backgroundColor=3e2731" />
+
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="/assets/css/pixel-blog.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <h1>◆ PIXEL HOME</h1>
+        <span class="sub">BLOG / QUEST LOG</span>
+      </a>
+      <nav class="topnav" aria-label="blog">
+        <a href="/">HOME</a>
+        <a class="is-active" href="/blog/">BLOG</a>
+      </nav>
+    </header>
+
+    <main class="nes-container is-dark panel">
+      <div class="panel-head">
+        <span>◆ QUEST LOG</span>
+        <span class="tag">/blog</span>
+      </div>
+
+      <p class="blog-intro">
+        静态存档点。文章是 <strong>HTML</strong>，跟着 Cloudflare Pages 一起发布——
+        <strong>不占服务器常驻内存</strong>。
+      </p>
+
+      <ul class="post-list" id="post-list">
+        <!-- 无 JS 时的静态回退；有 JS 时由 posts.json 刷新 -->
+        <li>
+          <a class="post-card" href="/blog/posts/hello-pixel.html">
+            <div class="meta">
+              <span class="date">2026-07-22</span>
+              <span class="chip">日志</span>
+              <span class="chip">站点</span>
+            </div>
+            <h2>像素主页开张：先存一档</h2>
+            <p class="excerpt">Pixel Home 上线后的第一篇：为什么选静态站，以及博客怎么挂进来。</p>
+            <span class="go">READ →</span>
+          </a>
+        </li>
+        <li>
+          <a class="post-card" href="/blog/posts/lightweight-static-blog.html">
+            <div class="meta">
+              <span class="date">2026-07-22</span>
+              <span class="chip">基建</span>
+              <span class="chip">静态站</span>
+            </div>
+            <h2>2G 机器也够用：轻量博客怎么选</h2>
+            <p class="excerpt">对比静态生成、Typecho、WordPress、Ghost：个人站优先零常驻进程。</p>
+            <span class="go">READ →</span>
+          </a>
+        </li>
+      </ul>
+    </main>
+
+    <footer class="site-foot">
+      <span class="coin">●</span>
+      PRESS START · CF PAGES · <span id="year"></span>
+      <span class="hint"><a href="/">← 回主页</a></span>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    async function loadPosts() {
+      const list = document.getElementById('post-list');
+      try {
+        const res = await fetch('/blog/posts.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('posts.json ' + res.status);
+        const posts = await res.json();
+        if (!Array.isArray(posts) || !posts.length) {
+          list.innerHTML = '<li class="empty-log">还没有存档。去 blog/posts/ 写一篇吧。</li>';
+          return;
+        }
+        posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        list.innerHTML = posts.map((p) => {
+          const tags = (p.tags || []).map((t) => `<span class="chip">${escapeHtml(t)}</span>`).join('');
+          return `
+            <li>
+              <a class="post-card" href="/blog/posts/${escapeHtml(p.slug)}.html">
+                <div class="meta">
+                  <span class="date">${escapeHtml(p.date)}</span>
+                  ${tags}
+                </div>
+                <h2>${escapeHtml(p.title)}</h2>
+                <p class="excerpt">${escapeHtml(p.excerpt || '')}</p>
+                <span class="go">READ →</span>
+              </a>
+            </li>`;
+        }).join('');
+      } catch (err) {
+        console.warn('posts.json load failed, using static fallback', err);
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
