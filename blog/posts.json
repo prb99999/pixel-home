@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "hello-pixel",
+    "title": "像素主页开张：先存一档",
+    "date": "2026-07-22",
+    "tags": ["日志", "站点"],
+    "excerpt": "Pixel Home 上线后的第一篇：为什么选静态站，以及博客怎么挂进来。"
+  },
+  {
+    "slug": "lightweight-static-blog",
+    "title": "2G 机器也够用：轻量博客怎么选",
+    "date": "2026-07-22",
+    "tags": ["基建", "静态站"],
+    "excerpt": "对比静态生成、Typecho、WordPress、Ghost：个人站优先零常驻进程。"
+  }
+]

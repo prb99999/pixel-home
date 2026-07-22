@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pixel Home 上线后的第一篇：为什么选静态站，以及博客怎么挂进来。" />
+  <meta name="theme-color" content="#1a1c2c" />
+  <meta name="author" content="panpan" />
+  <title>像素主页开张：先存一档 · BLOG</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.gif" type="image/gif" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Pixel Home" />
+  <meta property="og:title" content="像素主页开张：先存一档" />
+  <meta property="og:description" content="Pixel Home 上线后的第一篇：为什么选静态站，以及博客怎么挂进来。" />
+
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="/assets/css/pixel-blog.css" />
+</head>
+<body>
+  <div class="wrap post-page">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <h1>◆ PIXEL HOME</h1>
+        <span class="sub">BLOG / SAVE #001</span>
+      </a>
+      <nav class="topnav" aria-label="blog">
+        <a href="/">HOME</a>
+        <a class="is-active" href="/blog/">BLOG</a>
+      </nav>
+    </header>
+
+    <article class="nes-container is-dark panel">
+      <div class="panel-head">
+        <span>◆ SAVE FILE</span>
+        <span class="tag">hello-pixel</span>
+      </div>
+
+      <header class="post-hero">
+        <div class="meta">
+          <span class="date">2026-07-22</span>
+          <span class="chip">日志</span>
+          <span class="chip">站点</span>
+        </div>
+        <h1>像素主页开张：先存一档</h1>
+        <p class="lead">主页是仪表盘，博客是任务日志。两者共用同一套像素皮肤，部署还是 Cloudflare Pages。</p>
+      </header>
+
+      <div class="article">
+        <p>这是 Pixel Home 的第一篇存档。</p>
+        <p>站点本身是纯静态页：NES 面板、Fusion Pixel 字体、WORLD MAP 上的工具链。博客也走同一条路——<strong>不跑数据库、不占 2G 机器的常驻内存</strong>，写完 HTML 推到仓库即可。</p>
+
+        <h2>为什么是静态</h2>
+        <ul>
+          <li>和现有主页同仓、同风格、同域名路径 <code>/blog/</code></li>
+          <li>Cloudflare Pages 构建命令可留空，输出目录就是仓库根</li>
+          <li>那台 2 核 2G 可以留给真正需要进程的服务</li>
+        </ul>
+
+        <h2>怎么继续写</h2>
+        <ol>
+          <li>在 <code>blog/posts/</code> 复制一篇现有文章改内容</li>
+          <li>文件名即 slug，例如 <code>my-note.html</code></li>
+          <li>在 <code>blog/posts.json</code> 加一条元数据（标题、日期、标签、摘要）</li>
+          <li>提交推送，Pages 自动发布</li>
+        </ol>
+
+        <blockquote>提示：列表页会读 <code>posts.json</code>；即使 JS 失败，也有静态回退卡片。</blockquote>
+
+        <p>下一篇聊聊轻量方案怎么选。</p>
+      </div>
+
+      <nav class="post-nav" aria-label="post navigation">
+        <a class="ghost" href="/blog/">← QUEST LOG</a>
+        <a href="/blog/posts/lightweight-static-blog.html">下一篇 →</a>
+      </nav>
+    </article>
+
+    <footer class="site-foot">
+      <span class="coin">●</span>
+      PRESS START · CF PAGES · <span id="year"></span>
+      <span class="hint"><a href="/">← 回主页</a></span>
+    </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="对比静态生成、Typecho、WordPress、Ghost：个人站优先零常驻进程。" />
+  <meta name="theme-color" content="#1a1c2c" />
+  <meta name="author" content="panpan" />
+  <title>2G 机器也够用：轻量博客怎么选 · BLOG</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.gif" type="image/gif" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Pixel Home" />
+  <meta property="og:title" content="2G 机器也够用：轻量博客怎么选" />
+  <meta property="og:description" content="对比静态生成、Typecho、WordPress、Ghost：个人站优先零常驻进程。" />
+
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="/assets/css/pixel-blog.css" />
+</head>
+<body>
+  <div class="wrap post-page">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <h1>◆ PIXEL HOME</h1>
+        <span class="sub">BLOG / SAVE #002</span>
+      </a>
+      <nav class="topnav" aria-label="blog">
+        <a href="/">HOME</a>
+        <a class="is-active" href="/blog/">BLOG</a>
+      </nav>
+    </header>
+
+    <article class="nes-container is-dark panel">
+      <div class="panel-head">
+        <span>◆ SAVE FILE</span>
+        <span class="tag">lightweight-static-blog</span>
+      </div>
+
+      <header class="post-hero">
+        <div class="meta">
+          <span class="date">2026-07-22</span>
+          <span class="chip">基建</span>
+          <span class="chip">静态站</span>
+        </div>
+        <h1>2G 机器也够用：轻量博客怎么选</h1>
+        <p class="lead">资源有限时，最省的不是「更小的 CMS」，而是<strong>根本不跑 CMS</strong>。</p>
+      </header>
+
+      <div class="article">
+        <p>手里有台 2 核 2G，想加个人博客，常见选项大致这样排：</p>
+
+        <h2>方案对照</h2>
+        <ul>
+          <li><strong>静态 HTML / Hugo / Astro</strong>：几乎零内存，CDN 托管即可 —— <em>本站采用</em></li>
+          <li><strong>Typecho</strong>：PHP 轻量后台，适合必须在服务器上点点写的人</li>
+          <li><strong>WordPress</strong>：能跑，但插件一多就挤占 2G</li>
+          <li><strong>Ghost / Halo</strong>：Node / JVM 常驻，小机器容易吃紧</li>
+        </ul>
+
+        <h2>本站的取舍</h2>
+        <p>主页已经在 Cloudflare Pages。博客做成同风格静态页后：</p>
+        <ol>
+          <li>不需要再在 VPS 上开 Nginx + PHP/MySQL</li>
+          <li>2G 留给 Uptime、股票分析、其它自托管服务</li>
+          <li>视觉继续用 NES + Fusion Pixel，和 HOME / ITEM BAG 一体</li>
+        </ol>
+
+        <blockquote>什么时候才上 Typecho？——当你明确需要后台编辑、评论审核，并且愿意在机器上留出 PHP 进程时。</blockquote>
+
+        <h2>小结</h2>
+        <p>轻量化的第一原则：<strong>能静态就静态</strong>。博客写进仓库，推送即发布，机器呼吸更顺。</p>
+      </div>
+
+      <nav class="post-nav" aria-label="post navigation">
+        <a href="/blog/posts/hello-pixel.html">← 上一篇</a>
+        <a class="ghost" href="/blog/">QUEST LOG →</a>
+      </nav>
+    </article>
+
+    <footer class="site-foot">
+      <span class="coin">●</span>
+      PRESS START · CF PAGES · <span id="year"></span>
+      <span class="hint"><a href="/">← 回主页</a></span>
+    </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Panpan 的像素风个人主页 · 工具箱、书影与 Arcade" />
+  <meta name="description" content="Panpan 的像素风个人主页 · 工具箱、书影、Arcade 与博客" />
   <meta name="theme-color" content="#1a1c2c" />
   <meta name="author" content="panpan" />
   <title>Panpan · Pixel Home</title>
@@ -20,7 +20,7 @@
   <meta property="og:image" content="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-bear-jul26&backgroundColor=3e2731" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Panpan · Pixel Home" />
-  <meta name="twitter:description" content="像素风个人主页 · 工具箱、书影与 Arcade" />
+  <meta name="twitter:description" content="像素风个人主页 · 工具箱、书影、Arcade 与博客" />
 
   <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
   <link
@@ -646,6 +646,8 @@
       flex-shrink: 0;
     }
     .map-node.home { background: var(--lime); }
+    .map-node.blog { background: var(--green); color: #fff !important; }
+    .map-node.blog .dot { background: #fff; }
     .map-node.drop { background: var(--cyan); }
     .map-node.pdf { background: var(--orange); }
     .map-node.photo { background: var(--pink); color: #fff !important; }
@@ -813,6 +815,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       height: calc(100% - 36px);
+      align-content: start;
     }
     .inv-slot {
       display: flex;
@@ -1344,6 +1347,7 @@
         <a href="#music">MUSIC</a>
         <a href="#quote">QUOTE</a>
         <a href="#arcade">ARCADE</a>
+        <a href="/blog/">BLOG</a>
       </nav>
     </header>
 
@@ -1437,6 +1441,8 @@
               <div class="map-nodes">
                 <a class="map-node home" href="#profile" title="当前存档"><span class="dot"></span>HOME</a>
                 <span class="map-rail" aria-hidden="true"></span>
+                <a class="map-node blog" href="/blog/" title="任务日志"><span class="dot"></span>BLOG</a>
+                <span class="map-rail" aria-hidden="true"></span>
                 <a class="map-node drop" href="https://drop.prb9.top" target="_blank" rel="noopener noreferrer"><span class="dot"></span>DROP</a>
                 <span class="map-rail" aria-hidden="true"></span>
                 <a class="map-node pdf" href="https://pdf.prb9.top" target="_blank" rel="noopener noreferrer"><span class="dot"></span>PDF</a>
@@ -1480,6 +1486,11 @@
           <span class="tag">SELECT</span>
         </div>
         <div class="inv-grid">
+          <a class="inv-slot" href="/blog/">
+            <i class="fa-solid fa-scroll"></i>
+            <span class="slot-name">BLOG</span>
+            <span class="qty">log</span>
+          </a>
           <a class="inv-slot" href="https://drop.prb9.top" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-share-nodes"></i>
             <span class="slot-name">DROP</span>
