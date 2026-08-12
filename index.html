@@ -201,6 +201,7 @@
           "profile links"
           "status music"
           "quote quote"
+          "trades trades"
           "arcade arcade";
         gap: 14px;
       }
@@ -209,6 +210,7 @@
       #status { grid-area: status; }
       #music { grid-area: music; }
       #quote { grid-area: quote; }
+      #trades { grid-area: trades; }
       #arcade { grid-area: arcade; }
     }
 
@@ -216,11 +218,12 @@
     @media (min-width: 1200px) {
       .grid {
         grid-template-columns: 1.55fr 0.95fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr auto;
+        grid-template-rows: 1fr 1fr auto auto;
         gap: 14px;
         grid-template-areas:
           "profile profile links status"
           "profile profile music quote"
+          "trades trades trades trades"
           "arcade arcade arcade arcade";
         min-height: calc(100vh - 120px);
       }
@@ -1112,6 +1115,113 @@
     .quote-refresh:hover { background: var(--lime); }
     .quote-refresh:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #0d0d0f; }
 
+    /* TRADE LOG：量化买卖流水 */
+    #trades.panel { min-height: 0; }
+    .trade-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+    }
+    .trade-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .trade-list li {
+      display: grid;
+      grid-template-columns: 72px 52px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      background: #0d0d0f;
+      border: 3px solid #3c3c41;
+      padding: 8px 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    @media (max-width: 560px) {
+      .trade-list li {
+        grid-template-columns: 64px 44px 1fr;
+        grid-template-rows: auto auto;
+      }
+      .trade-list .trade-pnl {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+    }
+    .trade-list .d { color: var(--mute); }
+    .trade-list .side {
+      display: inline-block;
+      padding: 2px 6px;
+      border: 2px solid #0d0d0f;
+      font-size: 11px;
+      color: #0d0d0f;
+      text-align: center;
+    }
+    .trade-list .side.buy { background: var(--lime); }
+    .trade-list .side.sell { background: var(--orange); }
+    .trade-list .main { color: var(--ink); min-width: 0; }
+    .trade-list .main strong { color: var(--cyan); font-weight: normal; }
+    .trade-list .note { color: var(--mute); font-size: 11px; margin-left: 4px; }
+    .trade-list .trade-pnl { color: var(--gold); white-space: nowrap; }
+    .trade-list .trade-pnl.loss { color: var(--orange); }
+    .trade-list .trade-pnl.flat { color: var(--mute); }
+    .trade-empty { color: var(--mute); font-size: 13px; padding: 8px 0; }
+    .trade-more {
+      align-self: flex-start;
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      color: #0d0d0f;
+      background: var(--cyan);
+      border: 3px solid #0d0d0f;
+      box-shadow: 2px 2px 0 #0d0d0f;
+      padding: 6px 10px;
+    }
+    .trade-more:hover { background: var(--lime); }
+    .trade-more:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #0d0d0f;
+    }
+    .trade-more[hidden] { display: none; }
+
+    #trade-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 10, 14, 0.82);
+      z-index: 98;
+      padding: 16px;
+    }
+    #trade-modal.show { display: flex; }
+    #trade-modal .box {
+      width: min(560px, 100%);
+      max-height: min(80vh, 640px);
+      overflow: auto;
+      background: var(--bg-1);
+      border: 4px solid #0d0d0f;
+      box-shadow: 0 0 0 4px var(--gold);
+      padding: 18px;
+    }
+    #trade-modal .box h3 {
+      margin: 0 0 12px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: normal;
+    }
+    #trade-modal .box .trade-list { margin-bottom: 12px; }
+    #trade-modal .box .hint {
+      color: var(--mute);
+      font-size: 11px;
+      margin: 0 0 12px;
+    }
+
     /* ARCADE：宠物 + 每日签 */
     .arcade-grid {
       display: grid;
@@ -1346,6 +1456,7 @@
         <a href="#status">STATUS</a>
         <a href="#music">MUSIC</a>
         <a href="#quote">QUOTE</a>
+        <a href="#trades">TRADES</a>
         <a href="#arcade">ARCADE</a>
         <a href="/blog/">BLOG</a>
       </nav>
@@ -1613,6 +1724,18 @@
         </div>
       </section>
 
+      <section id="trades" class="nes-container is-dark panel">
+        <div class="panel-head">
+          <span>◆ TRADE LOG</span>
+          <span class="tag">QUANT</span>
+        </div>
+        <div class="trade-body">
+          <ul class="trade-list" id="trade-preview" aria-label="最新交易"></ul>
+          <p class="trade-empty" id="trade-empty" hidden>还没有记录 · 下次买卖写进 SITE_CONFIG.trades</p>
+          <button type="button" class="trade-more" id="trade-more" hidden>查看全部</button>
+        </div>
+      </section>
+
       <section id="arcade" class="nes-container is-dark panel">
         <div class="panel-head">
           <span>◆ ARCADE</span>
@@ -1662,6 +1785,15 @@
     </footer>
   </div>
 
+  <div id="trade-modal" role="dialog" aria-modal="true" aria-labelledby="trade-modal-title">
+    <div class="box">
+      <h3 id="trade-modal-title">◆ TRADE LOG · ALL</h3>
+      <p class="hint">量化买卖流水 · 新到旧</p>
+      <ul class="trade-list" id="trade-all"></ul>
+      <button type="button" class="nes-btn is-success" id="trade-modal-close">OK</button>
+    </div>
+  </div>
+
   <div id="easter" role="dialog" aria-modal="true">
     <div class="box">
       <p style="color:var(--gold)">★ SECRET UNLOCKED ★</p>
@@ -1692,6 +1824,13 @@
         '股票分析灯是绿的，商业航天曲线不是。',
         '先别看盘了，去 ARCADE 喂会儿宠物。',
       ],
+      // 量化买卖流水（新的写在数组前面；卖出可填 pnl / pnlPct）
+      // 例：{ date:'2026-08-04', side:'buy', symbol:'ZS', price:153.87, note:'量化' }
+      //     { date:'2026-08-12', side:'sell', symbol:'ZS', price:160.2, pnl:'+6.33', pnlPct:'+4.1%' }
+      trades: [
+        { date: '2026-08-04', side: 'buy', symbol: 'ZS', price: 153.87, note: '量化' },
+      ],
+      tradesPreview: 3,
       // 豆瓣封面卡：idouban + mouban 缓存（首次收录需等待）
       douban: {
         id: '139105239',
@@ -2282,6 +2421,73 @@
       setInterval(renderPet, 60_000);
     }
 
+    function formatTradeDate(dateStr) {
+      const m = String(dateStr || '').match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return dateStr || '—';
+      return `${m[2]}-${m[3]}`;
+    }
+
+    function formatTradePrice(n) {
+      const num = Number(n);
+      if (!Number.isFinite(num)) return '—';
+      return num.toFixed(2).replace(/\.?0+$/, (s) => (s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s)) || String(num);
+    }
+
+    function tradePnlClass(pnl) {
+      const s = String(pnl || '');
+      if (!s || s === '—' || s === '0' || s === '0%' ) return 'flat';
+      if (s.trim().startsWith('-')) return 'loss';
+      return '';
+    }
+
+    function tradeLineHtml(t) {
+      const side = (t.side || '').toLowerCase() === 'sell' ? 'sell' : 'buy';
+      const sideLabel = side === 'sell' ? '卖出' : '买入';
+      const note = t.note ? `<span class="note">${t.note}</span>` : '';
+      const pnlBits = [t.pnl, t.pnlPct].filter(Boolean).join(' · ');
+      const pnlHtml = pnlBits
+        ? `<span class="trade-pnl ${tradePnlClass(t.pnl || t.pnlPct)}">${pnlBits}</span>`
+        : `<span class="trade-pnl flat">${side === 'sell' ? '—' : '持仓中'}</span>`;
+      return `<li>
+        <span class="d">${formatTradeDate(t.date)}</span>
+        <span class="side ${side}">${sideLabel}</span>
+        <span class="main"><strong>${t.symbol || '?'}</strong> @ ${formatTradePrice(t.price)}${note}</span>
+        ${pnlHtml}
+      </li>`;
+    }
+
+    function bindTrades() {
+      const list = Array.isArray(SITE_CONFIG.trades) ? SITE_CONFIG.trades.slice() : [];
+      const previewN = SITE_CONFIG.tradesPreview || 3;
+      const previewEl = document.getElementById('trade-preview');
+      const emptyEl = document.getElementById('trade-empty');
+      const moreBtn = document.getElementById('trade-more');
+      const allEl = document.getElementById('trade-all');
+      const modal = document.getElementById('trade-modal');
+      if (!previewEl) return;
+
+      if (!list.length) {
+        previewEl.innerHTML = '';
+        if (emptyEl) emptyEl.hidden = false;
+        if (moreBtn) moreBtn.hidden = true;
+        return;
+      }
+      if (emptyEl) emptyEl.hidden = true;
+      previewEl.innerHTML = list.slice(0, previewN).map(tradeLineHtml).join('');
+      if (allEl) allEl.innerHTML = list.map(tradeLineHtml).join('');
+      if (moreBtn) {
+        moreBtn.hidden = list.length <= previewN;
+        moreBtn.textContent = `查看全部（${list.length}）`;
+        moreBtn.onclick = () => modal?.classList.add('show');
+      }
+      document.getElementById('trade-modal-close')?.addEventListener('click', () => {
+        modal?.classList.remove('show');
+      });
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('show');
+      });
+    }
+
     function bindKonami() {
       const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
       let progress = 0;
@@ -2319,6 +2525,7 @@
     loadHitokoto();
     document.getElementById('quote-refresh')?.addEventListener('click', loadHitokoto);
     bindArcade();
+    bindTrades();
     bindKonami();
   </script>
 </body>
