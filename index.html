@@ -87,9 +87,9 @@
     a { color: var(--cyan); }
     a:hover { color: var(--lime); }
 
-    /* NES 容器：压缩默认内边距，放大观感同时省高度 */
+    /* NES 容器：压缩默认内边距 */
     .nes-container {
-      padding: 14px 16px !important;
+      padding: 10px 12px !important;
       margin: 0 !important;
       font-family: var(--font) !important;
     }
@@ -100,7 +100,7 @@
     .wrap {
       width: min(1540px, 98vw);
       margin: 0 auto;
-      padding: 10px 12px 12px;
+      padding: 8px 10px 8px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -112,9 +112,9 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 10px 16px;
-      margin-bottom: 12px;
-      padding: 8px 10px;
+      gap: 8px 12px;
+      margin-bottom: 8px;
+      padding: 6px 8px;
       background: var(--frame);
       border: 4px solid #0d0d0f;
       box-shadow: 0 0 0 3px var(--gold);
@@ -145,11 +145,11 @@
     .meta-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
+      gap: 5px;
+      padding: 4px 8px;
       background: rgba(0,0,0,0.4);
       border: 3px solid #0d0d0f;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--ink);
       white-space: nowrap;
     }
@@ -173,9 +173,9 @@
       color: var(--ink) !important;
       background: var(--bg-1);
       border: 3px solid #0d0d0f;
-      padding: 8px 10px;
-      font-size: 13px;
-      box-shadow: 3px 3px 0 #0d0d0f;
+      padding: 6px 8px;
+      font-size: 12px;
+      box-shadow: 2px 2px 0 #0d0d0f;
       flex-shrink: 0;
     }
     .topnav a:hover {
@@ -189,7 +189,7 @@
       flex: 1;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 8px;
       align-content: start;
     }
 
@@ -203,7 +203,7 @@
           "quote quote"
           "trades trades"
           "arcade arcade";
-        gap: 14px;
+        gap: 10px;
       }
       #profile { grid-area: profile; }
       #links { grid-area: links; }
@@ -214,25 +214,24 @@
       #arcade { grid-area: arcade; }
     }
 
-    /* 桌面宽屏 */
+    /* 桌面宽屏：不硬撑满视口，避免面板内部上下空洞 */
     @media (min-width: 1200px) {
       .grid {
         grid-template-columns: 1.55fr 0.95fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr auto auto;
-        gap: 14px;
+        grid-template-rows: auto auto auto auto;
+        gap: 10px;
         grid-template-areas:
           "profile profile links status"
           "profile profile music quote"
           "trades trades trades trades"
           "arcade arcade arcade arcade";
-        min-height: calc(100vh - 120px);
       }
     }
 
     .panel {
       position: relative;
       background: var(--bg-1);
-      height: 100%;
+      height: auto;
       min-height: 0;
       overflow: hidden;
       display: flex;
@@ -246,14 +245,14 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin: -6px -8px 10px;
-      padding: 10px 12px;
+      margin: -4px -6px 8px;
+      padding: 7px 10px;
       background: var(--frame);
-      border-bottom: 4px solid #0d0d0f;
+      border-bottom: 3px solid #0d0d0f;
       color: var(--gold);
-      font-size: 14px;
+      font-size: 13px;
     }
-    .panel-head .tag { color: var(--mute); font-size: 13px; }
+    .panel-head .tag { color: var(--mute); font-size: 12px; }
 
     .panel::before,
     .panel::after {
@@ -273,7 +272,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       height: 100%;
       min-height: 0;
       overflow: hidden;
@@ -449,16 +448,16 @@
       background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
       color: var(--lime);
       border: 4px solid var(--cyan);
-      padding: 14px 14px 18px;
-      margin: 6px 0 10px;
+      padding: 10px 12px 14px;
+      margin: 4px 0 8px;
       box-shadow:
         4px 4px 0 #0d0d0f,
         inset 0 0 0 2px rgba(65, 166, 246, 0.15);
       font-size: 14px;
-      line-height: 1.7;
-      flex: 1 1 auto;
-      min-height: 88px;
-      max-height: 160px;
+      line-height: 1.55;
+      flex: 0 1 auto;
+      min-height: 72px;
+      max-height: 120px;
       overflow: hidden;
     }
     #dialog-text {
@@ -498,7 +497,7 @@
     .vitals {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 6px;
       margin-top: 0;
       flex-shrink: 0;
     }
@@ -509,13 +508,13 @@
     .bars-panel {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 8px 10px;
+      padding: 6px 8px;
     }
     .playtime .label,
     .bars-panel .label {
       color: var(--mute);
-      font-size: 12px;
-      margin-bottom: 6px;
+      font-size: 11px;
+      margin-bottom: 4px;
     }
     .playtime .digits {
       color: var(--lime);
@@ -576,18 +575,18 @@
 
     /* EXP + 任务 / 技能：填满 profile 下方空白 */
     .exp-row {
-      margin-top: 8px;
+      margin-top: 6px;
       flex-shrink: 0;
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 8px 10px;
+      padding: 6px 8px;
     }
     .exp-row .label {
       display: flex;
       justify-content: space-between;
       color: var(--mute);
-      font-size: 12px;
-      margin-bottom: 6px;
+      font-size: 11px;
+      margin-bottom: 4px;
     }
     .exp-row .label strong { color: var(--gold); font-weight: normal; }
     .exp-track {
@@ -604,16 +603,16 @@
     }
     /* WORLD MAP：资料卡与书影之间的地点链 */
     .world-map {
-      margin-top: 8px;
+      margin-top: 6px;
       flex-shrink: 0;
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 8px 10px;
+      padding: 6px 8px;
     }
     .world-map .label {
       color: var(--mute);
-      font-size: 12px;
-      margin-bottom: 8px;
+      font-size: 11px;
+      margin-bottom: 6px;
     }
     .world-map .label em {
       font-style: normal;
@@ -668,12 +667,12 @@
 
     /* 豆瓣 idouban：电影 | 书，吃满 profile 下半宽 */
     .foot-strip.douban-strip {
-      margin-top: 8px;
+      margin-top: 6px;
       flex: 1 1 auto;
       min-height: 0;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 6px;
     }
     @media (min-width: 720px) {
       .foot-strip.douban-strip { grid-template-columns: 1fr 1fr; }
@@ -709,8 +708,8 @@
     }
     .idouban-mount {
       flex: 1;
-      min-height: 160px;
-      max-height: 280px;
+      min-height: 120px;
+      max-height: 220px;
       overflow: auto;
       font-family: var(--font) !important;
     }
@@ -816,8 +815,8 @@
     .inv-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      height: calc(100% - 36px);
+      gap: 8px;
+      height: auto;
       align-content: start;
     }
     .inv-slot {
@@ -825,9 +824,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 96px;
-      padding: 12px 8px;
+      gap: 6px;
+      min-height: 72px;
+      padding: 8px 6px;
       text-decoration: none !important;
       color: var(--ink) !important;
       background: #0d0d0f;
@@ -871,7 +870,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-size: 10px;
       color: var(--mute);
     }
@@ -879,7 +878,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 6px;
-      height: calc(100% - 28px);
+      height: auto;
     }
     .kuma-card {
       display: flex;
@@ -887,7 +886,7 @@
       justify-content: center;
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 10px;
+      padding: 8px;
       color: inherit;
       cursor: default;
       min-height: 0;
@@ -930,25 +929,25 @@
     .kuma-tip strong { color: var(--gold); }
 
     /* MIX TAPE：自维护曲目，无区服问题 */
-    #music .tape-card { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+    #music .tape-card { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
     #quote .quote-box { flex: 1; min-height: 0; }
     .tape-card {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 12px;
+      padding: 8px;
     }
     .tape-head {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-shrink: 0;
     }
     .tape-reel {
-      width: 56px;
-      height: 56px;
+      width: 40px;
+      height: 40px;
       flex-shrink: 0;
       border: 3px solid #0d0d0f;
-      box-shadow: 3px 3px 0 #3c3c41;
+      box-shadow: 2px 2px 0 #3c3c41;
       background:
         radial-gradient(circle at 50% 50%, #1a1c2c 0 18%, transparent 19%),
         repeating-conic-gradient(from 0deg, var(--gold) 0 12deg, #3c3c41 12deg 24deg);
@@ -960,59 +959,65 @@
     .tape-meta { min-width: 0; flex: 1; }
     .tape-brand {
       color: var(--pink);
-      font-size: 11px;
-      margin-bottom: 4px;
+      font-size: 10px;
+      margin-bottom: 2px;
     }
     .tape-title {
       color: #fff;
-      font-size: 14px;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.3;
     }
     .tape-sub {
       color: var(--mute);
-      font-size: 11px;
-      margin-top: 2px;
+      font-size: 10px;
+      margin-top: 1px;
     }
     .tape-now {
       flex-shrink: 0;
-      background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
-      border: 3px solid var(--cyan);
-      padding: 8px 10px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: #121624;
+      border: 2px solid var(--cyan);
+      padding: 5px 8px;
+      font-size: 12px;
+      line-height: 1.35;
     }
     .tape-now .label {
       color: var(--mute);
-      font-size: 11px;
-      margin-bottom: 4px;
+      font-size: 10px;
+      flex-shrink: 0;
     }
     .tape-now .track {
       color: var(--lime);
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 12px;
     }
     .tape-now .artist {
       color: var(--mute);
-      font-size: 12px;
-      margin-top: 2px;
+      font-size: 11px;
     }
+    .tape-now .artist:not(:empty)::before { content: "· "; }
     .tape-tracks {
       list-style: none;
       margin: 0;
       padding: 0;
       flex: 1;
       min-height: 0;
+      max-height: 132px;
       overflow: auto;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
     .tape-tracks li {
       display: grid;
-      grid-template-columns: 28px 1fr;
-      gap: 8px;
+      grid-template-columns: 22px 1fr;
+      gap: 6px;
       align-items: baseline;
-      padding: 5px 6px;
+      padding: 3px 5px;
       border: 2px solid transparent;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--ink);
       cursor: pointer;
     }
@@ -1024,26 +1029,25 @@
     .tape-tracks .n { color: var(--mute); }
     .tape-tracks .t { color: var(--ink); }
     .tape-tracks .t small {
-      display: block;
       color: var(--mute);
-      font-size: 11px;
-      margin-top: 1px;
+      font-size: 10px;
+      margin-left: 6px;
     }
     .tape-tracks li.on .t { color: var(--gold); }
     .tape-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
     }
     .tape-actions button {
       font-family: inherit;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
       color: #0d0d0f;
       background: var(--cyan);
       border: 3px solid #0d0d0f;
       box-shadow: 2px 2px 0 #0d0d0f;
-      padding: 6px 10px;
+      padding: 4px 8px;
     }
     .tape-actions button:hover { background: var(--lime); }
     .tape-actions button:active {
@@ -1052,20 +1056,20 @@
     }
     .tape-actions .secondary { background: var(--gold); }
 
-    /* 一言 / Hitokoto —— 替换 Switch */
+    /* 一言 / Hitokoto */
     .quote-box {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 16px;
-      min-height: 160px;
+      padding: 10px 12px;
+      min-height: 110px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 8px;
     }
     .quote-text {
       color: var(--ink);
-      font-size: clamp(17px, 1.55vw, 22px);
-      line-height: 1.95;
+      font-size: clamp(15px, 1.4vw, 19px);
+      line-height: 1.7;
       flex: 1;
     }
     .quote-text::before {
@@ -1104,7 +1108,7 @@
     .trade-body {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       flex: 1;
       min-height: 0;
     }
@@ -1114,18 +1118,18 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
     .trade-list li {
       display: grid;
-      grid-template-columns: 72px 52px 1fr auto;
-      gap: 8px;
+      grid-template-columns: 64px 44px 1fr auto;
+      gap: 6px;
       align-items: center;
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 8px 10px;
-      font-size: 13px;
-      line-height: 1.4;
+      padding: 6px 8px;
+      font-size: 12px;
+      line-height: 1.35;
     }
     @media (max-width: 560px) {
       .trade-list li {
@@ -1220,11 +1224,11 @@
     .arcade-card {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 12px;
-      min-height: 140px;
+      padding: 10px;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .arcade-card .label {
       color: var(--mute);
@@ -1305,11 +1309,11 @@
       flex: 1;
       background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
       border: 3px solid var(--cyan);
-      padding: 12px;
-      min-height: 72px;
+      padding: 10px;
+      min-height: 56px;
       color: var(--ink);
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.5;
     }
     .oracle-result .rarity {
       display: inline-block;
@@ -1326,7 +1330,7 @@
     .oracle-hint { color: var(--mute); font-size: 11px; }
 
     footer.site-foot {
-      margin-top: 10px;
+      margin-top: 6px;
       text-align: center;
       color: var(--mute);
       font-size: 10px;
@@ -1669,14 +1673,14 @@
             <div class="tape-reel" aria-hidden="true"></div>
             <div class="tape-meta">
               <div class="tape-brand">♪ CASSETTE</div>
-              <div class="tape-title" id="tape-title">暗黑风摇摆</div>
-              <div class="tape-sub" id="tape-sub">自维护曲目 · 无区服</div>
+              <div class="tape-title" id="tape-title">PIXEL FM</div>
+              <div class="tape-sub" id="tape-sub">主页自选曲 · 无区服</div>
             </div>
           </div>
           <div class="tape-now" aria-live="polite">
-            <div class="label">▶ NOW PLAYING</div>
-            <div class="track" id="tape-now-track">—</div>
-            <div class="artist" id="tape-now-artist">—</div>
+            <span class="label">NOW</span>
+            <span class="track" id="tape-now-track">—</span>
+            <span class="artist" id="tape-now-artist"></span>
           </div>
           <ul class="tape-tracks" id="tape-tracks" aria-label="曲目列表"></ul>
           <div class="tape-actions">
@@ -1813,7 +1817,7 @@
       tradesPreview: 3,
       // MIX TAPE：自维护曲目（改这里即可，无需外链歌单）
       mixtape: {
-        title: '暗黑风摇摆',
+        title: 'PIXEL FM',
         side: 'SIDE A',
         tracks: [
           { title: 'Night Drive', artist: 'City Rain' },
