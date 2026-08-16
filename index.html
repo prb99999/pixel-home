@@ -929,144 +929,128 @@
     }
     .kuma-tip strong { color: var(--gold); }
 
-    /*
-      Apple Music 官方 iframe 强制白底+登录，无法换肤。
-      改用像素风「收音机」卡片，外链打开歌单。
-    */
-    #music .radio-card { flex: 1; min-height: 0; }
+    /* MIX TAPE：自维护曲目，无区服问题 */
+    #music .tape-card { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
     #quote .quote-box { flex: 1; min-height: 0; }
-    .radio-card {
-      display: block;
-      text-decoration: none !important;
-      color: inherit !important;
+    .tape-card {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 14px;
-      transition: border-color 0.1s steps(2), transform 0.1s steps(2);
+      padding: 12px;
     }
-    .radio-card:hover {
-      border-color: var(--pink);
-      transform: translate(-2px, -2px);
-      box-shadow: 4px 4px 0 #0d0d0f;
-    }
-    .radio-top {
+    .tape-head {
       display: flex;
-      gap: 14px;
       align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
     }
-    .radio-art {
-      width: 88px;
-      height: 88px;
+    .tape-reel {
+      width: 56px;
+      height: 56px;
       flex-shrink: 0;
       border: 3px solid #0d0d0f;
-      box-shadow: 3px 3px 0 #0d0d0f;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 3px 3px 0 #3c3c41;
       background:
-        repeating-linear-gradient(
-          45deg,
-          #2a1030 0 8px,
-          #1a0a20 8px 16px
-        );
+        radial-gradient(circle at 50% 50%, #1a1c2c 0 18%, transparent 19%),
+        repeating-conic-gradient(from 0deg, var(--gold) 0 12deg, #3c3c41 12deg 24deg);
+      animation: reel 4s steps(12) infinite;
     }
-    .radio-art::before {
-      content: "";
-      position: absolute;
-      inset: 10px;
-      border: 3px solid rgba(255, 55, 95, 0.55);
-      background:
-        radial-gradient(circle at 50% 45%, #ff375f 0 22%, transparent 23%),
-        radial-gradient(circle at 50% 45%, transparent 34%, rgba(255, 55, 95, 0.25) 35% 48%, transparent 49%);
+    @keyframes reel {
+      to { transform: rotate(360deg); }
     }
-    .radio-art::after {
-      content: "♪";
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tape-meta { min-width: 0; flex: 1; }
+    .tape-brand {
+      color: var(--pink);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    .tape-title {
       color: #fff;
-      font-size: 22px;
-      text-shadow: 2px 2px 0 #0d0d0f;
-      padding-top: 2px;
+      font-size: 14px;
+      line-height: 1.4;
     }
-    .radio-meta { min-width: 0; flex: 1; }
-    .radio-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #ff375f;
-      font-size: 10px;
-      margin-bottom: 8px;
-    }
-    .radio-title {
-      color: #fff;
-      font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 6px;
-    }
-    .radio-sub {
+    .tape-sub {
       color: var(--mute);
-      font-size: 10px;
-      line-height: 1.5;
+      font-size: 11px;
+      margin-top: 2px;
     }
-    .radio-eq {
+    .tape-now {
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
+      border: 3px solid var(--cyan);
+      padding: 8px 10px;
+    }
+    .tape-now .label {
+      color: var(--mute);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    .tape-now .track {
+      color: var(--lime);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .tape-now .artist {
+      color: var(--mute);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .tape-tracks {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
       display: flex;
-      align-items: flex-end;
+      flex-direction: column;
       gap: 4px;
-      height: 22px;
-      margin-top: 10px;
     }
-    .radio-eq span {
-      width: 5px;
-      background: #ff375f;
-      animation: eq 0.85s steps(4) infinite;
+    .tape-tracks li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      align-items: baseline;
+      padding: 5px 6px;
+      border: 2px solid transparent;
+      font-size: 12px;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .tape-tracks li:hover { border-color: #3c3c41; }
+    .tape-tracks li.on {
+      border-color: var(--gold);
+      background: rgba(244, 180, 27, 0.08);
+    }
+    .tape-tracks .n { color: var(--mute); }
+    .tape-tracks .t { color: var(--ink); }
+    .tape-tracks .t small {
+      display: block;
+      color: var(--mute);
+      font-size: 11px;
+      margin-top: 1px;
+    }
+    .tape-tracks li.on .t { color: var(--gold); }
+    .tape-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .tape-actions button {
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      color: #0d0d0f;
+      background: var(--cyan);
+      border: 3px solid #0d0d0f;
+      box-shadow: 2px 2px 0 #0d0d0f;
+      padding: 6px 10px;
+    }
+    .tape-actions button:hover { background: var(--lime); }
+    .tape-actions button:active {
+      transform: translate(1px, 1px);
       box-shadow: 1px 1px 0 #0d0d0f;
     }
-    .radio-eq span:nth-child(1) { height: 40%; }
-    .radio-eq span:nth-child(2) { height: 85%; animation-delay: 0.1s; }
-    .radio-eq span:nth-child(3) { height: 55%; animation-delay: 0.2s; }
-    .radio-eq span:nth-child(4) { height: 95%; animation-delay: 0.15s; }
-    .radio-eq span:nth-child(5) { height: 35%; animation-delay: 0.05s; }
-    .radio-eq span:nth-child(6) { height: 70%; animation-delay: 0.18s; }
-    @keyframes eq {
-      0%, 100% { transform: scaleY(0.4); }
-      50% { transform: scaleY(1); }
-    }
-    .radio-play {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 12px;
-      padding: 12px 10px;
-      background: #ff375f;
-      color: #0d0d0f !important;
-      border: 3px solid #0d0d0f;
-      box-shadow: 3px 3px 0 #0d0d0f;
-      font-size: 11px;
-      text-align: center;
-    }
-    .radio-card:hover .radio-play {
-      background: var(--lime);
-    }
-
-    /* Switch / 曲名复用小号文字 */
-    .track-title { color: #fff; font-size: 11px; margin-bottom: 6px; line-height: 1.5; }
-    .track-artist { color: var(--mute); font-size: 10px; }
-    .cover {
-      width: 72px;
-      height: 72px;
-      flex-shrink: 0;
-      border: 3px solid #3c3c41;
-      background: var(--bg-1);
-    }
-    .cover.loading {
-      background: linear-gradient(90deg, #1a1c2c 25%, #2a2f4a 50%, #1a1c2c 75%);
-      background-size: 200% 100%;
-      animation: shine 1.4s linear infinite;
-    }
-    @keyframes shine { to { background-position: -200% 0; } }
+    .tape-actions .secondary { background: var(--gold); }
 
     /* 一言 / Hitokoto —— 替换 Switch */
     .quote-box {
@@ -1454,7 +1438,7 @@
         <a href="#profile">PROFILE</a>
         <a href="#links">ITEMS</a>
         <a href="#status">STATUS</a>
-        <a href="#music">MUSIC</a>
+        <a href="#music">TAPE</a>
         <a href="#quote">QUOTE</a>
         <a href="#trades">TRADES</a>
         <a href="#arcade">ARCADE</a>
@@ -1677,34 +1661,29 @@
 
       <section id="music" class="nes-container is-dark panel">
         <div class="panel-head">
-          <span>◆ RADIO</span>
-          <span class="tag">APPLE MUSIC</span>
+          <span>◆ MIX TAPE</span>
+          <span class="tag">SIDE A</span>
         </div>
-        <!-- 不用官方 iframe（白底/登录格格不入），卡片外链打开歌单 -->
-        <a
-          class="radio-card"
-          id="apple-music-widget"
-          href="https://music.apple.com/us/playlist/%E6%9A%97%E9%BB%91%E9%A3%8E%E6%91%87%E6%BB%9A/pl.f72bb902f8684581bb26760069b50e43"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="radio-top">
-            <div class="radio-art" aria-hidden="true"></div>
-            <div class="radio-meta">
-              <div class="radio-brand">
-                <i class="fa-brands fa-apple"></i> APPLE MUSIC
-              </div>
-              <div class="radio-title">暗黑风摇摆</div>
-              <div class="radio-sub">playlist · click to open</div>
-              <div class="radio-eq" aria-hidden="true">
-                <span></span><span></span><span></span><span></span><span></span><span></span>
-              </div>
+        <div class="tape-card" id="tape-card">
+          <div class="tape-head">
+            <div class="tape-reel" aria-hidden="true"></div>
+            <div class="tape-meta">
+              <div class="tape-brand">♪ CASSETTE</div>
+              <div class="tape-title" id="tape-title">暗黑风摇摆</div>
+              <div class="tape-sub" id="tape-sub">自维护曲目 · 无区服</div>
             </div>
           </div>
-          <div class="radio-play">
-            <i class="fa-solid fa-play"></i> PLAY ON APPLE MUSIC
+          <div class="tape-now" aria-live="polite">
+            <div class="label">▶ NOW PLAYING</div>
+            <div class="track" id="tape-now-track">—</div>
+            <div class="artist" id="tape-now-artist">—</div>
           </div>
-        </a>
+          <ul class="tape-tracks" id="tape-tracks" aria-label="曲目列表"></ul>
+          <div class="tape-actions">
+            <button type="button" id="tape-prev">◀ PREV</button>
+            <button type="button" class="secondary" id="tape-next">NEXT ▶</button>
+          </div>
+        </div>
       </section>
 
       <!-- 一言：免费公开 API，无需后端；点击抽一句 -->
@@ -1832,6 +1811,18 @@
         { date: '2026-08-04', side: 'buy', symbol: 'ZS', price: 153.87, note: '量化' },
       ],
       tradesPreview: 3,
+      // MIX TAPE：自维护曲目（改这里即可，无需外链歌单）
+      mixtape: {
+        title: '暗黑风摇摆',
+        side: 'SIDE A',
+        tracks: [
+          { title: 'Night Drive', artist: 'City Rain' },
+          { title: 'Neon Alley', artist: 'Pixel Noir' },
+          { title: 'Slow Swing', artist: 'After Hours' },
+          { title: 'Static Heart', artist: 'Low Battery' },
+          { title: 'Save Point', artist: 'Bitling FM' },
+        ],
+      },
       // 豆瓣封面卡：idouban + mouban 缓存（首次收录需等待）
       douban: {
         id: '139105239',
@@ -2489,6 +2480,70 @@
       });
     }
 
+    function bindMixtape() {
+      const cfg = SITE_CONFIG.mixtape || {};
+      const tracks = Array.isArray(cfg.tracks) ? cfg.tracks : [];
+      const titleEl = document.getElementById('tape-title');
+      const subEl = document.getElementById('tape-sub');
+      const listEl = document.getElementById('tape-tracks');
+      const nowTrack = document.getElementById('tape-now-track');
+      const nowArtist = document.getElementById('tape-now-artist');
+      if (!listEl) return;
+
+      if (titleEl) titleEl.textContent = cfg.title || 'MIX TAPE';
+      if (subEl) subEl.textContent = `${cfg.side || 'SIDE A'} · ${tracks.length} tracks`;
+
+      let idx = 0;
+      try {
+        const day = new Date();
+        const key = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+        let h = 2166136261;
+        for (let i = 0; i < key.length; i += 1) {
+          h ^= key.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        idx = tracks.length ? (h >>> 0) % tracks.length : 0;
+      } catch (_) {
+        idx = 0;
+      }
+
+      function render() {
+        if (!tracks.length) {
+          listEl.innerHTML = '<li class="dim">还没有曲目 · 编辑 SITE_CONFIG.mixtape</li>';
+          if (nowTrack) nowTrack.textContent = '—';
+          if (nowArtist) nowArtist.textContent = '空磁带';
+          return;
+        }
+        const cur = tracks[idx] || tracks[0];
+        if (nowTrack) nowTrack.textContent = cur.title || '—';
+        if (nowArtist) nowArtist.textContent = cur.artist || '';
+        listEl.innerHTML = tracks.map((t, i) => `
+          <li class="${i === idx ? 'on' : ''}" data-i="${i}">
+            <span class="n">${String(i + 1).padStart(2, '0')}</span>
+            <span class="t">${t.title || '—'}${t.artist ? `<small>${t.artist}</small>` : ''}</span>
+          </li>
+        `).join('');
+        listEl.querySelectorAll('li[data-i]').forEach((el) => {
+          el.addEventListener('click', () => {
+            idx = Number(el.dataset.i) || 0;
+            render();
+          });
+        });
+      }
+
+      document.getElementById('tape-prev')?.addEventListener('click', () => {
+        if (!tracks.length) return;
+        idx = (idx - 1 + tracks.length) % tracks.length;
+        render();
+      });
+      document.getElementById('tape-next')?.addEventListener('click', () => {
+        if (!tracks.length) return;
+        idx = (idx + 1) % tracks.length;
+        render();
+      });
+      render();
+    }
+
     function bindKonami() {
       const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
       let progress = 0;
@@ -2527,6 +2582,7 @@
     document.getElementById('quote-refresh')?.addEventListener('click', loadHitokoto);
     bindArcade();
     bindTrades();
+    bindMixtape();
     bindKonami();
   </script>
 </body>
