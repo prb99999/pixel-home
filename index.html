@@ -927,31 +927,28 @@
     }
     .tape-now {
       display: grid;
-      grid-template-columns: 32px 1fr 32px;
+      grid-template-columns: 22px 1fr 22px;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       background: #121624;
       border: 2px solid var(--cyan);
-      padding: 4px;
+      padding: 2px 3px;
     }
     .tape-skip {
-      width: 32px;
-      height: 32px;
+      width: 22px;
+      height: 22px;
       padding: 0;
       font-family: inherit;
-      font-size: 12px;
+      font-size: 10px;
       line-height: 1;
       cursor: pointer;
-      color: #0d0d0f;
-      background: var(--gold);
-      border: 3px solid #0d0d0f;
-      box-shadow: 2px 2px 0 #3c3c41;
+      color: var(--gold);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
     }
-    .tape-skip:hover { background: var(--lime); }
-    .tape-skip:active {
-      transform: translate(1px, 1px);
-      box-shadow: 1px 1px 0 #3c3c41;
-    }
+    .tape-skip:hover { color: var(--lime); }
+    .tape-skip:active { transform: translateY(1px); }
     .tape-now-body {
       display: flex;
       align-items: center;
@@ -959,8 +956,8 @@
       min-width: 0;
     }
     .tape-reel {
-      width: 28px;
-      height: 28px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
       border: 2px solid #0d0d0f;
       background:
