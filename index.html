@@ -191,17 +191,17 @@
       grid-template-columns: 1fr;
       gap: 8px;
       align-content: start;
-      align-items: start;
+      align-items: stretch;
     }
 
-    /* 平板：两列 */
+    /* 平板：两列；MUSIC 和一言始终并排成一对 */
     @media (min-width: 800px) {
       .grid {
         grid-template-columns: 1.4fr 1fr;
         grid-template-areas:
           "profile links"
-          "status music"
-          "quote quote"
+          "status status"
+          "music quote"
           "trades trades"
           "arcade arcade";
         gap: 10px;
@@ -215,7 +215,7 @@
       #arcade { grid-area: arcade; }
     }
 
-    /* 桌面宽屏：不硬撑满视口，避免面板内部上下空洞 */
+    /* 桌面宽屏 */
     @media (min-width: 1200px) {
       .grid {
         grid-template-columns: 1.55fr 0.95fr 1fr 1fr;
@@ -232,7 +232,7 @@
     .panel {
       position: relative;
       background: var(--bg-1);
-      height: auto;
+      height: 100%;
       min-height: 0;
       overflow: hidden;
       display: flex;
@@ -916,20 +916,28 @@
     }
     .kuma-tip strong { color: var(--gold); }
 
-    /* MIX TAPE：NOW 行内切歌，列表贴着内容 */
-    .tape-card {
-      background: #0d0d0f;
-      border: 3px solid #3c3c41;
-      padding: 6px;
+    /* MIX TAPE + 一言：同一套内盒，成对撑满 */
+    #music,
+    #quote {
+      min-height: 0;
+    }
+    .tape-card,
+    .quote-box {
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
+      background: #0d0d0f;
+      border: 3px solid #3c3c41;
+      padding: 8px;
     }
     .tape-now {
       display: grid;
       grid-template-columns: 22px 1fr 22px;
       align-items: center;
       gap: 4px;
+      flex-shrink: 0;
       background: #121624;
       border: 2px solid var(--cyan);
       padding: 2px 3px;
@@ -988,9 +996,11 @@
       list-style: none;
       margin: 0;
       padding: 0;
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      justify-content: space-between;
     }
     .tape-tracks li {
       display: grid;
@@ -1017,21 +1027,12 @@
     }
     .tape-tracks li.on .t { color: var(--gold); }
 
-    /* 一言 / Hitokoto */
-    .quote-box {
-      background: #0d0d0f;
-      border: 3px solid #3c3c41;
-      padding: 10px 12px;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
     .quote-text {
       color: var(--ink);
       font-size: clamp(15px, 1.4vw, 19px);
       line-height: 1.7;
       flex: 1;
+      margin: 0;
     }
     .quote-text::before {
       content: "「";
@@ -1047,19 +1048,21 @@
       justify-content: space-between;
       gap: 8px;
       flex-wrap: wrap;
+      margin-top: auto;
+      flex-shrink: 0;
       color: var(--mute);
-      font-size: 15px;
+      font-size: 13px;
     }
-    .quote-meta .from { color: var(--cyan); font-size: 15px; }
+    .quote-meta .from { color: var(--cyan); font-size: 13px; }
     .quote-refresh {
       font-family: inherit;
-      font-size: 13px;
+      font-size: 11px;
       cursor: pointer;
       color: #0d0d0f;
       background: var(--gold);
       border: 3px solid #0d0d0f;
       box-shadow: 2px 2px 0 #0d0d0f;
-      padding: 6px 10px;
+      padding: 4px 8px;
     }
     .quote-refresh:hover { background: var(--lime); }
     .quote-refresh:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #0d0d0f; }
