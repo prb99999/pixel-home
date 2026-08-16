@@ -191,6 +191,7 @@
       grid-template-columns: 1fr;
       gap: 8px;
       align-content: start;
+      align-items: start;
     }
 
     /* 平板：两列 */
@@ -253,19 +254,6 @@
       font-size: 13px;
     }
     .panel-head .tag { color: var(--mute); font-size: 12px; }
-
-    .panel::before,
-    .panel::after {
-      content: "";
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: var(--lime);
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    .panel::before { top: 8px; left: 8px; }
-    .panel::after { bottom: 8px; right: 8px; }
 
     /* Profile */
     .profile-row {
@@ -928,26 +916,53 @@
     }
     .kuma-tip strong { color: var(--gold); }
 
-    /* MIX TAPE：自维护曲目，无区服问题 */
-    #music .tape-card { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
-    #quote .quote-box { flex: 1; min-height: 0; }
+    /* MIX TAPE：NOW 行内切歌，列表贴着内容 */
     .tape-card {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
-      padding: 8px;
-    }
-    .tape-head {
+      padding: 6px;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
+      flex-direction: column;
+      gap: 6px;
     }
-    .tape-reel {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
+    .tape-now {
+      display: grid;
+      grid-template-columns: 32px 1fr 32px;
+      align-items: center;
+      gap: 6px;
+      background: #121624;
+      border: 2px solid var(--cyan);
+      padding: 4px;
+    }
+    .tape-skip {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      color: #0d0d0f;
+      background: var(--gold);
       border: 3px solid #0d0d0f;
       box-shadow: 2px 2px 0 #3c3c41;
+    }
+    .tape-skip:hover { background: var(--lime); }
+    .tape-skip:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #3c3c41;
+    }
+    .tape-now-body {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .tape-reel {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border: 2px solid #0d0d0f;
       background:
         radial-gradient(circle at 50% 50%, #1a1c2c 0 18%, transparent 19%),
         repeating-conic-gradient(from 0deg, var(--gold) 0 12deg, #3c3c41 12deg 24deg);
@@ -956,112 +971,61 @@
     @keyframes reel {
       to { transform: rotate(360deg); }
     }
-    .tape-meta { min-width: 0; flex: 1; }
-    .tape-brand {
-      color: var(--pink);
-      font-size: 10px;
-      margin-bottom: 2px;
-    }
-    .tape-title {
-      color: #fff;
-      font-size: 13px;
-      line-height: 1.3;
-    }
-    .tape-sub {
-      color: var(--mute);
-      font-size: 10px;
-      margin-top: 1px;
-    }
-    .tape-now {
-      flex-shrink: 0;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      flex-wrap: wrap;
-      background: #121624;
-      border: 2px solid var(--cyan);
-      padding: 5px 8px;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-    .tape-now .label {
-      color: var(--mute);
-      font-size: 10px;
-      flex-shrink: 0;
-    }
+    .tape-now-text { min-width: 0; }
     .tape-now .track {
       color: var(--lime);
       font-size: 12px;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .tape-now .artist {
       color: var(--mute);
-      font-size: 11px;
+      font-size: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .tape-now .artist:not(:empty)::before { content: "· "; }
     .tape-tracks {
       list-style: none;
       margin: 0;
       padding: 0;
-      flex: 1;
-      min-height: 0;
-      max-height: 132px;
-      overflow: auto;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
     }
     .tape-tracks li {
       display: grid;
       grid-template-columns: 22px 1fr;
       gap: 6px;
       align-items: baseline;
-      padding: 3px 5px;
+      padding: 4px 6px;
       border: 2px solid transparent;
       font-size: 11px;
       color: var(--ink);
       cursor: pointer;
     }
-    .tape-tracks li:hover { border-color: #3c3c41; }
+    .tape-tracks li:hover { background: #1a1c2c; }
     .tape-tracks li.on {
       border-color: var(--gold);
-      background: rgba(244, 180, 27, 0.08);
+      background: rgba(244, 180, 27, 0.1);
     }
     .tape-tracks .n { color: var(--mute); }
-    .tape-tracks .t { color: var(--ink); }
+    .tape-tracks .t { color: var(--ink); min-width: 0; }
     .tape-tracks .t small {
       color: var(--mute);
       font-size: 10px;
       margin-left: 6px;
     }
     .tape-tracks li.on .t { color: var(--gold); }
-    .tape-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    .tape-actions button {
-      font-family: inherit;
-      font-size: 11px;
-      cursor: pointer;
-      color: #0d0d0f;
-      background: var(--cyan);
-      border: 3px solid #0d0d0f;
-      box-shadow: 2px 2px 0 #0d0d0f;
-      padding: 4px 8px;
-    }
-    .tape-actions button:hover { background: var(--lime); }
-    .tape-actions button:active {
-      transform: translate(1px, 1px);
-      box-shadow: 1px 1px 0 #0d0d0f;
-    }
-    .tape-actions .secondary { background: var(--gold); }
 
     /* 一言 / Hitokoto */
     .quote-box {
       background: #0d0d0f;
       border: 3px solid #3c3c41;
       padding: 10px 12px;
-      min-height: 110px;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -1411,6 +1375,15 @@
         box-shadow: 2px 2px 0 #0d0d0f;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tape-reel,
+      .meta-chip .ic,
+      .save-lamp,
+      .char-plate .online::before,
+      .pet-sprite,
+      footer.site-foot .coin { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -1666,27 +1639,21 @@
       <section id="music" class="nes-container is-dark panel">
         <div class="panel-head">
           <span>◆ MIX TAPE</span>
-          <span class="tag">SIDE A</span>
+          <span class="tag" id="tape-title">PIXEL FM</span>
         </div>
         <div class="tape-card" id="tape-card">
-          <div class="tape-head">
-            <div class="tape-reel" aria-hidden="true"></div>
-            <div class="tape-meta">
-              <div class="tape-brand">♪ CASSETTE</div>
-              <div class="tape-title" id="tape-title">PIXEL FM</div>
-              <div class="tape-sub" id="tape-sub">主页自选曲 · 无区服</div>
-            </div>
-          </div>
           <div class="tape-now" aria-live="polite">
-            <span class="label">NOW</span>
-            <span class="track" id="tape-now-track">—</span>
-            <span class="artist" id="tape-now-artist"></span>
+            <button type="button" class="tape-skip" id="tape-prev" aria-label="上一首">◀</button>
+            <div class="tape-now-body">
+              <div class="tape-reel" aria-hidden="true"></div>
+              <div class="tape-now-text">
+                <div class="track" id="tape-now-track">—</div>
+                <div class="artist" id="tape-now-artist"></div>
+              </div>
+            </div>
+            <button type="button" class="tape-skip" id="tape-next" aria-label="下一首">▶</button>
           </div>
           <ul class="tape-tracks" id="tape-tracks" aria-label="曲目列表"></ul>
-          <div class="tape-actions">
-            <button type="button" id="tape-prev">◀ PREV</button>
-            <button type="button" class="secondary" id="tape-next">NEXT ▶</button>
-          </div>
         </div>
       </section>
 
@@ -2488,14 +2455,12 @@
       const cfg = SITE_CONFIG.mixtape || {};
       const tracks = Array.isArray(cfg.tracks) ? cfg.tracks : [];
       const titleEl = document.getElementById('tape-title');
-      const subEl = document.getElementById('tape-sub');
       const listEl = document.getElementById('tape-tracks');
       const nowTrack = document.getElementById('tape-now-track');
       const nowArtist = document.getElementById('tape-now-artist');
       if (!listEl) return;
 
-      if (titleEl) titleEl.textContent = cfg.title || 'MIX TAPE';
-      if (subEl) subEl.textContent = `${cfg.side || 'SIDE A'} · ${tracks.length} tracks`;
+      if (titleEl) titleEl.textContent = cfg.title || 'PIXEL FM';
 
       let idx = 0;
       try {
