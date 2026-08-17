@@ -1666,7 +1666,7 @@
       <section id="music" class="nes-container is-dark panel">
         <div class="panel-head">
           <span>◆ MIX TAPE</span>
-          <span class="tag" id="tape-title">PIXEL FM</span>
+          <span class="tag" id="tape-title">W00 · MIX</span>
         </div>
         <div class="tape-card" id="tape-card">
           <div class="tape-now" aria-live="polite">
@@ -1820,16 +1820,69 @@
         { date: '2026-08-04', side: 'buy', symbol: 'ZS', price: 153.87, strat: 'QNT' },
       ],
       tradesPreview: 5,
-      // MIX TAPE：自维护曲目（改这里即可，无需外链歌单）
+      // MIX TAPE：多套歌单按 ISO 周轮换；当天 NOW 在当周 5 首里轮
       mixtape: {
-        title: 'PIXEL FM',
-        side: 'SIDE A',
-        tracks: [
-          { title: 'Night Drive', artist: 'City Rain' },
-          { title: 'Neon Alley', artist: 'Pixel Noir' },
-          { title: 'Slow Swing', artist: 'After Hours' },
-          { title: 'Static Heart', artist: 'Low Battery' },
-          { title: 'Save Point', artist: 'Bitling FM' },
+        tapes: [
+          {
+            title: 'NIGHT DRIVE',
+            tracks: [
+              { title: 'Nightcall', artist: 'Kavinsky' },
+              { title: 'Midnight City', artist: 'M83' },
+              { title: 'Sunset', artist: 'The Midnight' },
+              { title: 'Future Club', artist: 'Perturbator' },
+              { title: 'Tech Noir', artist: 'Gunship' },
+            ],
+          },
+          {
+            title: 'MACHINE',
+            tracks: [
+              { title: 'The Robots', artist: 'Kraftwerk' },
+              { title: 'Digital Love', artist: 'Daft Punk' },
+              { title: 'Genesis', artist: 'Justice' },
+              { title: 'Roygbiv', artist: 'Boards of Canada' },
+              { title: 'Xtal', artist: 'Aphex Twin' },
+            ],
+          },
+          {
+            title: 'CITY POP',
+            tracks: [
+              { title: 'Plastic Love', artist: 'Mariya Takeuchi' },
+              { title: 'Stay With Me', artist: 'Miki Matsubara' },
+              { title: 'Sparkle', artist: 'Tatsuro Yamashita' },
+              { title: 'Ride on Time', artist: 'Tatsuro Yamashita' },
+              { title: "Cat's Eye", artist: 'Anri' },
+            ],
+          },
+          {
+            title: 'AFTER HOURS',
+            tracks: [
+              { title: 'Teardrop', artist: 'Massive Attack' },
+              { title: 'Glory Box', artist: 'Portishead' },
+              { title: 'Idioteque', artist: 'Radiohead' },
+              { title: 'Archangel', artist: 'Burial' },
+              { title: 'Heartbeats', artist: 'The Knife' },
+            ],
+          },
+          {
+            title: 'LOCAL',
+            tracks: [
+              { title: '杀死那个石家庄人', artist: '万能青年旅店' },
+              { title: '山海', artist: '草东没有派对' },
+              { title: '公路之歌', artist: '痛仰' },
+              { title: '没有理想的人不伤心', artist: '新裤子' },
+              { title: '完全性', artist: '腰' },
+            ],
+          },
+          {
+            title: 'TERMINAL',
+            tracks: [
+              { title: 'Blue Monday', artist: 'New Order' },
+              { title: 'Enjoy the Silence', artist: 'Depeche Mode' },
+              { title: 'Dance Yrself Clean', artist: 'LCD Soundsystem' },
+              { title: 'Around the World', artist: 'Daft Punk' },
+              { title: 'Harder Better Faster', artist: 'Daft Punk' },
+            ],
+          },
         ],
       },
       // 豆瓣封面卡：idouban + mouban 缓存（首次收录需等待）
@@ -2521,34 +2574,36 @@
       });
     }
 
+    function isoWeekNumber(date = new Date()) {
+      const utc = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      const day = utc.getUTCDay() || 7;
+      utc.setUTCDate(utc.getUTCDate() + 4 - day);
+      const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
+      return Math.ceil(((utc - yearStart) / 86400000 + 1) / 7);
+    }
+
     function bindMixtape() {
       const cfg = SITE_CONFIG.mixtape || {};
-      const tracks = Array.isArray(cfg.tracks) ? cfg.tracks : [];
+      const tapes = Array.isArray(cfg.tapes) && cfg.tapes.length
+        ? cfg.tapes
+        : [{ title: cfg.title || 'PIXEL FM', tracks: cfg.tracks || [] }];
+      const week = isoWeekNumber();
+      const tape = tapes[(week - 1) % tapes.length] || tapes[0];
+      const tracks = Array.isArray(tape.tracks) ? tape.tracks : [];
       const titleEl = document.getElementById('tape-title');
       const listEl = document.getElementById('tape-tracks');
       const nowTrack = document.getElementById('tape-now-track');
       const nowArtist = document.getElementById('tape-now-artist');
       if (!listEl) return;
 
-      if (titleEl) titleEl.textContent = cfg.title || 'PIXEL FM';
+      if (titleEl) titleEl.textContent = `W${String(week).padStart(2, '0')} · ${tape.title || 'MIX'}`;
 
-      let idx = 0;
-      try {
-        const day = new Date();
-        const key = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
-        let h = 2166136261;
-        for (let i = 0; i < key.length; i += 1) {
-          h ^= key.charCodeAt(i);
-          h = Math.imul(h, 16777619);
-        }
-        idx = tracks.length ? (h >>> 0) % tracks.length : 0;
-      } catch (_) {
-        idx = 0;
-      }
+      const day = new Date().getDay();
+      let idx = tracks.length ? day % tracks.length : 0;
 
       function render() {
         if (!tracks.length) {
-          listEl.innerHTML = '<li class="dim">还没有曲目 · 编辑 SITE_CONFIG.mixtape</li>';
+          listEl.innerHTML = '<li class="dim">还没有曲目</li>';
           if (nowTrack) nowTrack.textContent = '—';
           if (nowArtist) nowArtist.textContent = '空磁带';
           return;
