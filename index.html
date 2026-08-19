@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Panpan 的像素风个人主页 · 工具箱、书影、Arcade 与博客" />
-  <meta name="theme-color" content="#1a1c2c" />
+  <meta name="theme-color" content="#101a32" />
   <meta name="author" content="panpan" />
   <title>Panpan · Pixel Home</title>
 
@@ -17,7 +17,7 @@
   <meta property="og:url" content="https://prb9.top/" />
   <meta property="og:title" content="Panpan · Pixel Home" />
   <meta property="og:description" content="像素风个人主页 · DROP / PDF / PHOTO / STOCK，还有宠物与每日签。" />
-  <meta property="og:image" content="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-bear-jul26&backgroundColor=3e2731" />
+  <meta property="og:image" content="https://api.dicebear.com/9.x/pixel-art/svg?seed=prb9-neon-aug26&backgroundColor=143d6b" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Panpan · Pixel Home" />
   <meta name="twitter:description" content="像素风个人主页 · 工具箱、书影、Arcade 与博客" />
@@ -47,17 +47,23 @@
     }
 
     :root {
-      --bg-0: #1a1c2c;
-      --bg-1: #262b44;
-      --ink: #eaeaea;
-      --mute: #8b9bb4;
-      --green: #38b764;
-      --lime: #a7f070;
-      --cyan: #41a6f6;
-      --pink: #b55088;
-      --gold: #f4b41b;
-      --orange: #ef7d57;
-      --frame: #212123;
+      --bg-0: #101a32;
+      --bg-1: #1a2e52;
+      --ink: #f4fff8;
+      --mute: #7eb8c9;
+      --green: #2ee86c;
+      --lime: #c8ff45;
+      --cyan: #3af0ff;
+      --pink: #ff4ec8;
+      --gold: #ffdf2a;
+      --orange: #ff6a3c;
+      --frame: #0c1428;
+      --line: #3d5a88;
+      --well: #0f1c33;
+      --well-2: #152848;
+      --bar-g: #148a42;
+      --bar-c: #0e8aa0;
+      --bar-y: #c9a00e;
       --font: "Fusion Pixel", "PingFang SC", "Microsoft YaHei", monospace;
     }
 
@@ -75,10 +81,10 @@
       font-smooth: never;
       background-color: var(--bg-0);
       background-image:
-        radial-gradient(ellipse 90% 50% at 50% -5%, rgba(65, 166, 246, 0.18), transparent 55%),
-        radial-gradient(ellipse 50% 35% at 100% 80%, rgba(181, 80, 136, 0.15), transparent 50%),
-        radial-gradient(ellipse 40% 30% at 0% 100%, rgba(56, 183, 100, 0.12), transparent 45%),
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        radial-gradient(ellipse 90% 50% at 50% -5%, rgba(58, 240, 255, 0.28), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 100% 80%, rgba(255, 78, 200, 0.22), transparent 50%),
+        radial-gradient(ellipse 40% 30% at 0% 100%, rgba(200, 255, 69, 0.16), transparent 45%),
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
       background-size: auto, auto, auto, 10px 10px, 10px 10px;
       image-rendering: pixelated;
@@ -299,7 +305,7 @@
     }
     .char-plate {
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 8px;
       display: flex;
       flex-direction: column;
@@ -349,14 +355,14 @@
       color: #0d0d0f !important;
       background: var(--cyan);
       border: 3px solid #0d0d0f;
-      box-shadow: 2px 2px 0 #3c3c41;
+      box-shadow: 2px 2px 0 var(--line);
       padding: 6px 4px;
       font-size: 11px;
     }
     .char-plate .mail-btn:hover {
       background: var(--lime);
       transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #3c3c41;
+      box-shadow: 3px 3px 0 var(--line);
     }
     .avatar-frame img {
       width: 100%;
@@ -421,7 +427,7 @@
       display: inline-block;
       padding: 3px 7px;
       border: 2px solid #0d0d0f;
-      background: #3c3c41;
+      background: var(--line);
       color: var(--mute);
       font-size: 11px;
       letter-spacing: 0.4px;
@@ -433,14 +439,14 @@
     /* 状态框：略放大，可随文案换行，仍控上限 */
     .dialog {
       position: relative;
-      background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
+      background: linear-gradient(180deg, var(--well-2) 0%, var(--well) 100%);
       color: var(--lime);
       border: 4px solid var(--cyan);
       padding: 10px 12px 14px;
       margin: 4px 0 8px;
       box-shadow:
         4px 4px 0 #0d0d0f,
-        inset 0 0 0 2px rgba(65, 166, 246, 0.15);
+        inset 0 0 0 2px rgba(58, 240, 255, 0.28);
       font-size: 14px;
       line-height: 1.55;
       flex: 0 1 auto;
@@ -495,7 +501,7 @@
     .playtime,
     .bars-panel {
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 6px 8px;
     }
     .playtime .label,
@@ -514,7 +520,7 @@
       min-width: 1.8ch;
       text-align: center;
       background: #1a1c2c;
-      border: 2px solid #3c3c41;
+      border: 2px solid var(--line);
       padding: 3px 2px;
       margin: 0 2px;
     }
@@ -547,16 +553,16 @@
     .bar-track {
       height: 16px;
       background: #1a1c2c;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       box-shadow: inset 2px 2px 0 #0a0a0f;
     }
     .bar-fill {
       height: 100%;
-      background: repeating-linear-gradient(90deg, var(--green) 0 8px, #246b45 8px 11px);
+      background: repeating-linear-gradient(90deg, var(--green) 0 8px, var(--bar-g) 8px 11px);
       transition: width 0.6s steps(12);
     }
     .bar-fill.mp {
-      background: repeating-linear-gradient(90deg, var(--cyan) 0 8px, #1b5f9a 8px 11px);
+      background: repeating-linear-gradient(90deg, var(--cyan) 0 8px, var(--bar-c) 8px 11px);
     }
     .bar-num { color: var(--lime); font-size: 14px; text-align: right; }
     .bar-num.mp { color: var(--cyan); }
@@ -566,7 +572,7 @@
       margin-top: 6px;
       flex-shrink: 0;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 6px 8px;
     }
     .exp-row .label {
@@ -580,13 +586,13 @@
     .exp-track {
       height: 12px;
       background: #1a1c2c;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       box-shadow: inset 2px 2px 0 #0a0a0f;
     }
     .exp-fill {
       height: 100%;
       width: 0%;
-      background: repeating-linear-gradient(90deg, var(--gold) 0 8px, #b88410 8px 11px);
+      background: repeating-linear-gradient(90deg, var(--gold) 0 8px, var(--bar-y) 8px 11px);
       transition: width 0.6s steps(12);
     }
     /* WORLD MAP：资料卡与书影之间的地点链 */
@@ -594,7 +600,7 @@
       margin-top: 6px;
       flex-shrink: 0;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 6px 8px;
     }
     .world-map .label {
@@ -622,12 +628,12 @@
       border: 3px solid #0d0d0f;
       padding: 5px 8px;
       font-size: 11px;
-      box-shadow: 2px 2px 0 #3c3c41;
+      box-shadow: 2px 2px 0 var(--line);
       transition: transform 0.1s steps(2), box-shadow 0.1s steps(2);
     }
     .map-node:hover {
       transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #3c3c41;
+      box-shadow: 3px 3px 0 var(--line);
     }
     .map-node .dot {
       width: 8px;
@@ -646,7 +652,7 @@
     .map-rail {
       width: 10px;
       height: 3px;
-      background: repeating-linear-gradient(90deg, #3c3c41 0 3px, transparent 3px 6px);
+      background: repeating-linear-gradient(90deg, var(--line) 0 3px, transparent 3px 6px);
       flex-shrink: 0;
     }
     @media (max-width: 560px) {
@@ -667,7 +673,7 @@
     }
     .idouban-pane {
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 8px 10px 6px;
       min-height: 0;
       display: flex;
@@ -724,7 +730,7 @@
       text-decoration: none !important;
       color: var(--ink) !important;
       background: #1a1c2c;
-      border: 2px solid #3c3c41;
+      border: 2px solid var(--line);
       font-size: 11px;
       font-family: var(--font) !important;
     }
@@ -750,7 +756,7 @@
       max-height: 96px !important;
       object-fit: cover;
       border: 3px solid #0d0d0f;
-      box-shadow: 3px 3px 0 #3c3c41;
+      box-shadow: 3px 3px 0 var(--line);
       image-rendering: auto;
       background: #1a1c2c;
     }
@@ -789,7 +795,7 @@
       text-decoration: none !important;
       color: var(--ink) !important;
       background: #1a1c2c;
-      border: 2px solid #3c3c41;
+      border: 2px solid var(--line);
       font-size: 11px;
       font-family: var(--font) !important;
       margin: 0 4px;
@@ -818,7 +824,7 @@
       text-decoration: none !important;
       color: var(--ink) !important;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       box-shadow: inset 0 0 0 2px #1a1c2c;
       transition: transform 0.1s steps(2), border-color 0.1s;
       position: relative;
@@ -873,7 +879,7 @@
       flex-direction: column;
       justify-content: center;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 8px;
       color: inherit;
       cursor: default;
@@ -909,7 +915,7 @@
     .kuma-tip {
       margin-top: 10px;
       padding: 8px;
-      border: 2px dashed #3c3c41;
+      border: 2px dashed var(--line);
       color: var(--mute);
       font-size: 9px;
       line-height: 1.7;
@@ -929,7 +935,7 @@
       flex-direction: column;
       gap: 8px;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 8px;
     }
     .tape-now {
@@ -938,7 +944,7 @@
       align-items: center;
       gap: 4px;
       flex-shrink: 0;
-      background: #121624;
+      background: var(--well);
       border: 2px solid var(--cyan);
       padding: 2px 3px;
     }
@@ -970,7 +976,7 @@
       border: 2px solid #0d0d0f;
       background:
         radial-gradient(circle at 50% 50%, #1a1c2c 0 18%, transparent 19%),
-        repeating-conic-gradient(from 0deg, var(--gold) 0 12deg, #3c3c41 12deg 24deg);
+        repeating-conic-gradient(from 0deg, var(--gold) 0 12deg, var(--line) 12deg 24deg);
       animation: reel 4s steps(12) infinite;
     }
     @keyframes reel {
@@ -1092,10 +1098,10 @@
       font-weight: normal;
     }
     .blotter-stats .kv.dim b { color: var(--mute); }
-    .blotter-stats .sep { color: #3c3c41; }
+    .blotter-stats .sep { color: var(--line); }
     .blotter {
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       overflow: hidden;
     }
     .blotter-head,
@@ -1112,11 +1118,11 @@
       color: var(--mute);
       font-size: 10px;
       letter-spacing: 0.8px;
-      border-bottom: 2px solid #3c3c41;
+      border-bottom: 2px solid var(--line);
       padding: 5px 8px;
     }
     .blotter-row {
-      border-bottom: 1px solid #24263a;
+      border-bottom: 1px solid var(--well-2);
       padding: 6px 8px;
     }
     .blotter-row:last-child { border-bottom: 0; }
@@ -1150,7 +1156,7 @@
       font-size: 12px;
       padding: 10px 8px;
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
     }
     .trade-more {
       align-self: flex-end;
@@ -1214,7 +1220,7 @@
     }
     .arcade-card {
       background: #0d0d0f;
-      border: 3px solid #3c3c41;
+      border: 3px solid var(--line);
       padding: 10px;
       min-height: 0;
       display: flex;
@@ -1237,7 +1243,7 @@
       flex-shrink: 0;
       image-rendering: pixelated;
       border: 3px solid #0d0d0f;
-      box-shadow: 3px 3px 0 #3c3c41;
+      box-shadow: 3px 3px 0 var(--line);
       cursor: pointer;
       position: relative;
       background: #1a1c2c;
@@ -1298,7 +1304,7 @@
     .oracle-body { flex: 1; display: flex; flex-direction: column; gap: 8px; }
     .oracle-result {
       flex: 1;
-      background: linear-gradient(180deg, #1a2035 0%, #121624 100%);
+      background: linear-gradient(180deg, var(--well-2) 0%, var(--well) 100%);
       border: 3px solid var(--cyan);
       padding: 10px;
       min-height: 56px;
@@ -1461,7 +1467,7 @@
             <div class="avatar-frame">
               <img
                 id="avatar"
-                src="https://api.dicebear.com/9.x/thumbs/svg?seed=prb9-bear-jul26&flip=true&backgroundColor=3e2731,262b44,1a1c2c&shapeColor=e43b44,ef7d57,f4b41b,b55088,41a6f6"
+                src="https://api.dicebear.com/9.x/pixel-art/svg?seed=prb9-neon-aug26&flip=true&backgroundColor=143d6b,1a4d48,4a1d5c"
                 alt="avatar"
                 width="152"
                 height="152"
