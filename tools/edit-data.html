@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>数据编辑台 · Pixel Home</title>
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "Fusion Pixel";
+      src: url("../assets/fonts/fusion-pixel-12px-proportional-latin.ttf.woff2") format("woff2");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Fusion Pixel";
+      src: url("../assets/fonts/fusion-pixel-12px-proportional-zh_hans.ttf.woff2") format("woff2");
+      font-display: swap;
+    }
+    :root {
+      --bg-0: #101a32;
+      --bg-1: #1a2e52;
+      --ink: #f4fff8;
+      --mute: #7eb8c9;
+      --lime: #c8ff45;
+      --cyan: #3af0ff;
+      --gold: #ffdf2a;
+      --orange: #ff6a3c;
+      --line: #3d5a88;
+      --font: "Fusion Pixel", "PingFang SC", "Microsoft YaHei", monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg-0);
+      padding: 16px;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 18px; margin: 0 0 8px; color: var(--lime); }
+    .lead { color: var(--mute); font-size: 13px; margin: 0 0 16px; }
+    .nes-container.is-dark { background: var(--bg-1); margin-bottom: 14px; }
+    .steps {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--mute);
+      margin-bottom: 14px;
+    }
+    .steps b { color: var(--cyan); }
+    label {
+      display: block;
+      font-size: 11px;
+      color: var(--mute);
+      margin: 10px 0 4px;
+    }
+    input, select, textarea {
+      width: 100%;
+      font-family: var(--font);
+      font-size: 14px;
+      padding: 8px 10px;
+      border: 3px solid var(--line);
+      background: #0d0d0f;
+      color: var(--ink);
+    }
+    textarea { min-height: 180px; resize: vertical; font-size: 12px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .nes-btn { font-family: var(--font) !important; margin: 0; }
+    .ok { color: var(--lime); font-size: 12px; min-height: 1.2em; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+    .tab {
+      border: 3px solid var(--line);
+      background: #0d0d0f;
+      color: var(--mute);
+      padding: 6px 12px;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+    .tab.on { border-color: var(--gold); color: var(--lime); }
+    .panel { display: none; }
+    .panel.on { display: block; }
+    .gh-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    @media (max-width: 560px) {
+      .row, .row-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="/">← 回主页</a></p>
+    <h1>◆ 数据编辑台</h1>
+    <p class="lead">不用命令行。填表 → 复制 JSON → 在 GitHub 网页粘贴保存，Pages 会自动部署。</p>
+
+    <div class="nes-container is-dark with-title">
+      <p class="title">WORKFLOW</p>
+      <div class="steps">
+        <span>① 在下面填好内容，点 <b>生成并复制 JSON</b></span>
+        <span>② 点 <b>在 GitHub 打开文件</b>，全选删除旧内容，粘贴，Commit</span>
+        <span>③ 等半分钟刷新主页即可</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab on" data-tab="blotter">BLOTTER</button>
+      <button type="button" class="tab" data-tab="stock">STOCK 摘要</button>
+    </div>
+
+    <section class="panel on" id="panel-blotter">
+      <div class="nes-container is-dark with-title">
+        <p class="title">新增一笔成交（会插到最前面）</p>
+        <div class="row-3">
+          <div>
+            <label for="t-date">日期</label>
+            <input id="t-date" type="date" />
+          </div>
+          <div>
+            <label for="t-side">方向</label>
+            <select id="t-side">
+              <option value="buy">买入 BUY</option>
+              <option value="sell">卖出 SELL</option>
+            </select>
+          </div>
+          <div>
+            <label for="t-symbol">代码</label>
+            <input id="t-symbol" placeholder="ZS" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="t-price">成交价</label>
+            <input id="t-price" type="number" step="0.01" placeholder="153.87" />
+          </div>
+          <div>
+            <label for="t-pnl">盈亏 %（卖出时填，如 +15.56%）</label>
+            <input id="t-pnl" placeholder="+0.46%" />
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="nes-btn is-primary" id="btn-trade-gen">生成并复制 JSON</button>
+          <a class="nes-btn is-success gh-link" id="gh-trades" href="https://github.com/prb99999/pixel-home/edit/main/data/trades.json" target="_blank" rel="noopener">在 GitHub 打开 trades.json</a>
+        </div>
+        <p class="ok" id="trade-msg"></p>
+        <label for="t-json">完整 trades.json（可手改）</label>
+        <textarea id="t-json" spellcheck="false"></textarea>
+        <div class="actions">
+          <button type="button" class="nes-btn" id="btn-trade-reload">重新加载线上数据</button>
+          <button type="button" class="nes-btn" id="btn-trade-copy">仅复制下方 JSON</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-stock">
+      <div class="nes-container is-dark with-title">
+        <p class="title">STOCK 最新摘要</p>
+        <label for="s-title">标题</label>
+        <input id="s-title" placeholder="市场结构观察" />
+        <label for="s-summary">一行结论</label>
+        <input id="s-summary" placeholder="指数冲关与赛道分化并存…" />
+        <label for="s-url">链接（可留空，默认 stock 站）</label>
+        <input id="s-url" placeholder="https://stock.prb9.top/" />
+        <label for="s-date">更新日期</label>
+        <input id="s-date" type="date" />
+        <div class="actions">
+          <button type="button" class="nes-btn is-primary" id="btn-stock-gen">生成并复制 JSON</button>
+          <a class="nes-btn is-success gh-link" id="gh-stock" href="https://github.com/prb99999/pixel-home/edit/main/data/stock-latest.json" target="_blank" rel="noopener">在 GitHub 打开 stock-latest.json</a>
+        </div>
+        <p class="ok" id="stock-msg"></p>
+        <label for="s-json">完整 stock-latest.json</label>
+        <textarea id="s-json" spellcheck="false"></textarea>
+        <div class="actions">
+          <button type="button" class="nes-btn" id="btn-stock-reload">重新加载线上数据</button>
+          <button type="button" class="nes-btn" id="btn-stock-copy">仅复制下方 JSON</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const GH_TRADES = 'https://github.com/prb99999/pixel-home/edit/main/data/trades.json';
+    const GH_STOCK = 'https://github.com/prb99999/pixel-home/edit/main/data/stock-latest.json';
+
+    document.querySelectorAll('.tab').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach((b) => b.classList.remove('on'));
+        document.querySelectorAll('.panel').forEach((p) => p.classList.remove('on'));
+        btn.classList.add('on');
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add('on');
+      });
+    });
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    async function copyText(text) {
+      await navigator.clipboard.writeText(text);
+    }
+
+    function flash(el, msg) {
+      if (!el) return;
+      el.textContent = msg;
+      setTimeout(() => { el.textContent = ''; }, 3200);
+    }
+
+    function parseTrades(raw) {
+      const data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
+    }
+
+    async function loadTrades() {
+      const res = await fetch('/data/trades.json?_=' + Date.now());
+      if (!res.ok) throw new Error('load trades failed');
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    }
+
+    async function loadStock() {
+      const res = await fetch('/data/stock-latest.json?_=' + Date.now());
+      if (!res.ok) throw new Error('load stock failed');
+      return await res.json();
+    }
+
+    function buildTradeEntry() {
+      const side = document.getElementById('t-side').value;
+      const entry = {
+        date: document.getElementById('t-date').value || today(),
+        side,
+        symbol: document.getElementById('t-symbol').value.trim().toUpperCase(),
+        price: Number(document.getElementById('t-price').value),
+      };
+      if (!entry.symbol || !Number.isFinite(entry.price)) {
+        throw new Error('请填写代码和成交价');
+      }
+      if (side === 'buy') entry.strat = 'QNT';
+      const pnl = document.getElementById('t-pnl').value.trim();
+      if (pnl) entry.pnlPct = pnl;
+      return entry;
+    }
+
+    function buildStockObject() {
+      return {
+        title: document.getElementById('s-title').value.trim() || '最新分析',
+        summary: document.getElementById('s-summary').value.trim(),
+        url: document.getElementById('s-url').value.trim() || 'https://stock.prb9.top/',
+        updatedAt: document.getElementById('s-date').value || today(),
+      };
+    }
+
+    async function initBlotter() {
+      document.getElementById('t-date').value = today();
+      try {
+        const trades = await loadTrades();
+        document.getElementById('t-json').value = JSON.stringify(trades, null, 2) + '\n';
+      } catch (_) {
+        document.getElementById('t-json').value = '[]\n';
+      }
+    }
+
+    async function initStock() {
+      document.getElementById('s-date').value = today();
+      try {
+        const stock = await loadStock();
+        document.getElementById('s-title').value = stock.title || '';
+        document.getElementById('s-summary').value = stock.summary || '';
+        document.getElementById('s-url').value = stock.url || '';
+        if (stock.updatedAt) document.getElementById('s-date').value = String(stock.updatedAt).slice(0, 10);
+        document.getElementById('s-json').value = JSON.stringify(stock, null, 2) + '\n';
+      } catch (_) {
+        document.getElementById('s-json').value = JSON.stringify(buildStockObject(), null, 2) + '\n';
+      }
+    }
+
+    document.getElementById('btn-trade-gen').addEventListener('click', async () => {
+      const msg = document.getElementById('trade-msg');
+      try {
+        const entry = buildTradeEntry();
+        let trades;
+        try {
+          trades = parseTrades(document.getElementById('t-json').value);
+        } catch (_) {
+          trades = await loadTrades();
+        }
+        trades.unshift(entry);
+        const text = JSON.stringify(trades, null, 2) + '\n';
+        document.getElementById('t-json').value = text;
+        await copyText(text);
+        flash(msg, '✓ 已插入新成交并复制，去 GitHub 粘贴保存');
+        window.open(GH_TRADES, '_blank', 'noopener');
+      } catch (err) {
+        flash(msg, err.message || '生成失败');
+      }
+    });
+
+    document.getElementById('btn-trade-reload').addEventListener('click', async () => {
+      await initBlotter();
+      flash(document.getElementById('trade-msg'), '已重新加载');
+    });
+
+    document.getElementById('btn-trade-copy').addEventListener('click', async () => {
+      const text = document.getElementById('t-json').value;
+      await copyText(text);
+      flash(document.getElementById('trade-msg'), '✓ 已复制');
+    });
+
+    document.getElementById('btn-stock-gen').addEventListener('click', async () => {
+      const msg = document.getElementById('stock-msg');
+      const obj = buildStockObject();
+      const text = JSON.stringify(obj, null, 2) + '\n';
+      document.getElementById('s-json').value = text;
+      await copyText(text);
+      flash(msg, '✓ 已复制，去 GitHub 粘贴保存');
+      window.open(GH_STOCK, '_blank', 'noopener');
+    });
+
+    document.getElementById('btn-stock-reload').addEventListener('click', async () => {
+      await initStock();
+      flash(document.getElementById('stock-msg'), '已重新加载');
+    });
+
+    document.getElementById('btn-stock-copy').addEventListener('click', async () => {
+      const text = document.getElementById('s-json').value;
+      await copyText(text);
+      flash(document.getElementById('stock-msg'), '✓ 已复制');
+    });
+
+    initBlotter();
+    initStock();
+  </script>
+</body>
+</html>

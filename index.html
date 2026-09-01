@@ -260,6 +260,13 @@
       font-size: 13px;
     }
     .panel-head .tag { color: var(--mute); font-size: 12px; }
+    .panel-head .edit-link {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--mute);
+      text-decoration: none !important;
+    }
+    .panel-head .edit-link:hover { color: var(--lime); }
 
     /* Profile */
     .profile-row {
@@ -894,6 +901,48 @@
       font-size: 11px;
       color: var(--ink);
     }
+  /* STOCK 摘要：STATUS 面板内最新分析 teaser */
+    .stock-teaser {
+      margin-top: 8px;
+      padding: 8px;
+      background: #0d0d0f;
+      border: 3px solid var(--line);
+    }
+    .stock-teaser-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      font-size: 10px;
+      color: var(--mute);
+      letter-spacing: 0.4px;
+    }
+    .stock-teaser-head i { color: var(--gold); }
+    .stock-teaser-head time {
+      margin-left: auto;
+      font-size: 9px;
+      color: var(--mute);
+    }
+    .stock-teaser-link {
+      display: block;
+      text-decoration: none !important;
+      color: var(--ink) !important;
+      line-height: 1.45;
+    }
+    .stock-teaser-link strong {
+      display: block;
+      font-size: 12px;
+      color: var(--cyan);
+      margin-bottom: 3px;
+    }
+    .stock-teaser-link span {
+      display: block;
+      font-size: 11px;
+      color: var(--mute);
+    }
+    .stock-teaser-link:hover strong { color: var(--lime); }
+    .stock-teaser.is-loading .stock-teaser-link { opacity: 0.55; }
+
     .kuma-card .kuma-name small {
       color: var(--mute);
       font-size: 9px;
@@ -1487,8 +1536,8 @@
                 <span class="k">ZONE</span>
                 <span class="v cyan" id="zone-label">烟台·芝罘</span>
               </div>
-              <div class="plate-row" title="本站访客（同标签页刷新不重复计）">
-                <span class="k">GUESTS</span>
+              <div class="plate-row" title="Cloudflare Web Analytics（数据在 CF 面板查看）">
+                <span class="k">PULSE</span>
                 <span class="v gold" id="guest-label">…</span>
               </div>
               <a class="mail-btn" href="mailto:me@prb9.top" title="发邮件">✉ MAIL</a>
@@ -1666,6 +1715,24 @@
               </div>
             </div>
           </div>
+
+          <div class="stock-teaser is-loading" id="stock-teaser" hidden>
+            <div class="stock-teaser-head">
+              <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+              <span>STOCK · LATEST</span>
+              <time id="stock-updated"></time>
+            </div>
+            <a
+              class="stock-teaser-link"
+              id="stock-teaser-link"
+              href="https://stock.prb9.top/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <strong id="stock-title">同步中…</strong>
+              <span id="stock-summary">拉取最新分析摘要</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -1711,6 +1778,7 @@
         <div class="panel-head">
           <span>◆ BLOTTER</span>
           <span class="tag">QNT · LIVE</span>
+          <a class="edit-link" href="/tools/edit-data.html" title="网页填表更新数据">EDIT</a>
         </div>
         <div class="trade-body">
           <div class="blotter-stats" id="blotter-stats"></div>
@@ -1766,7 +1834,7 @@
     <footer class="site-foot">
       <span class="coin">●</span>
       PRESS START · CF PAGES · <span id="year"></span>
-      <span class="hint" id="guest-foot" title="访客计数">· GUESTS …</span>
+      <span class="hint" id="guest-foot" title="Cloudflare Web Analytics">· ANALYTICS …</span>
       <a class="mail" href="mailto:me@prb9.top">
         <i class="fa-solid fa-envelope"></i> me@prb9.top
       </a>
@@ -1799,6 +1867,19 @@
 
   <script>
     const SITE_CONFIG = {
+      // Cloudflare 面板 → Web Analytics → 管理站点 → 复制 JS snippet 里的 token
+      cfAnalyticsToken: '',
+      // 远程 JSON 优先；跨域需 stock 站返回 Access-Control-Allow-Origin
+      feeds: {
+        trades: [
+          'https://stock.prb9.top/data/trades.json',
+          '/data/trades.json',
+        ],
+        stock: [
+          'https://stock.prb9.top/data/latest.json',
+          '/data/stock-latest.json',
+        ],
+      },
       launchAt: '2026-07-14T08:00:00+08:00',
       // Uptime Kuma
       // 1 = 股票分析  https://status.prb9.top/dashboard/1
@@ -1818,15 +1899,8 @@
         '股票分析灯是绿的，商业航天曲线不是。',
         '先别看盘了，去 ARCADE 喂会儿宠物。',
       ],
-      // 量化成交带（新的写在数组前面；平仓填 pnl / pnlPct）
-      // { date:'2026-08-04', side:'buy', symbol:'ZS', price:153.87, strat:'QNT' }
-      // { date:'2026-08-12', side:'sell', symbol:'ZS', price:160.2, pnl:'+6.33', pnlPct:'+4.1%' }
-      trades: [
-        { date: '2026-08-21', side: 'sell', symbol: 'TMUS', price: 181.53, pnlPct: '+0.46%' },
-        { date: '2026-08-20', side: 'sell', symbol: 'ZS', price: 177.95, pnlPct: '+15.56%' },
-        { date: '2026-08-14', side: 'buy', symbol: 'TMUS', price: 180.7, strat: 'QNT' },
-        { date: '2026-08-04', side: 'buy', symbol: 'ZS', price: 153.87, strat: 'QNT' },
-      ],
+      // Blotter 离线兜底（正常从 feeds.trades 拉取 data/trades.json）
+      tradesFallback: [],
       tradesPreview: 5,
       // MIX TAPE：多套歌单按 ISO 周轮换；当天 NOW 在当周 5 首里轮
       mixtape: {
@@ -2057,36 +2131,101 @@
       if (caption) caption.textContent = `EXP · DAY ${lv}`;
     }
 
-    function formatGuestCount(n) {
-      const num = Number(n) || 0;
-      if (num >= 10000) return `${(num / 10000).toFixed(1).replace(/\.0$/, '')}w`;
-      return String(num);
+    function feedUrls(key, fallback) {
+      const raw = SITE_CONFIG.feeds?.[key];
+      if (Array.isArray(raw)) return raw.filter(Boolean);
+      if (typeof raw === 'string' && raw) return [raw];
+      return fallback ? [fallback] : [];
     }
 
-    /** 访客计数：Abacus 免费计数；同标签页会话内只 +1 一次 */
-    async function loadVisitorCount() {
+    async function fetchFeedJson(urls) {
+      let lastErr;
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error(`http ${res.status}`);
+          return await res.json();
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error('feed unavailable');
+    }
+
+    /** Cloudflare Web Analytics：Pages 一键开启时会自动注入 beacon，无需 token */
+    function initCfAnalytics() {
+      const token = String(SITE_CONFIG.cfAnalyticsToken || '').trim();
       const plate = document.getElementById('guest-label');
       const foot = document.getElementById('guest-foot');
-      const ns = 'prb9.top';
-      const key = 'visits';
-      const sessionFlag = 'pixel-home-visit-hit';
-      const already = sessionStorage.getItem(sessionFlag) === '1';
-      const endpoint = already ? 'get' : 'hit';
-      try {
-        const res = await fetch(`https://abacus.jasoncameron.dev/${endpoint}/${ns}/${key}`, {
-          cache: 'no-store',
-        });
-        if (!res.ok) throw new Error('guest http');
-        const data = await res.json();
-        const value = data.value ?? data.count ?? 0;
-        if (!already) sessionStorage.setItem(sessionFlag, '1');
-        const text = formatGuestCount(value);
-        if (plate) plate.textContent = text;
-        if (foot) foot.textContent = `· GUESTS ${text}`;
-      } catch (_) {
-        if (plate) plate.textContent = '—';
-        if (foot) foot.textContent = '· GUESTS —';
+
+      const hasAutoBeacon = () => Boolean(
+        document.querySelector('script[src*="cloudflareinsights.com"]')
+        || document.querySelector('script[data-cf-beacon]'),
+      );
+
+      if (token && !hasAutoBeacon()) {
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        script.setAttribute('data-cf-beacon', JSON.stringify({ token }));
+        document.body.appendChild(script);
       }
+
+      const on = Boolean(token || hasAutoBeacon());
+      if (plate) {
+        plate.textContent = on ? 'ON' : 'OFF';
+        plate.title = on
+          ? 'Cloudflare Web Analytics 已启用（数据在 CF 面板）'
+          : '可在 Pages 设置里开启 Web Analytics';
+      }
+      if (foot) {
+        foot.textContent = on ? '· CF ANALYTICS' : '· ANALYTICS OFF';
+        foot.title = on
+          ? '访问数据在 Cloudflare 面板 → Web Analytics'
+          : 'Pages 项目 Settings → Web Analytics 可一键开启';
+      }
+    }
+
+    async function loadStockTeaser() {
+      const root = document.getElementById('stock-teaser');
+      const titleEl = document.getElementById('stock-title');
+      const summaryEl = document.getElementById('stock-summary');
+      const linkEl = document.getElementById('stock-teaser-link');
+      const updatedEl = document.getElementById('stock-updated');
+      if (!root || !titleEl || !summaryEl || !linkEl) return;
+
+      root.hidden = false;
+      root.classList.add('is-loading');
+      try {
+        const data = await fetchFeedJson(feedUrls('stock', '/data/stock-latest.json'));
+        const title = data.title || data.name || '最新分析';
+        const summary = data.summary || data.conclusion || data.excerpt || '';
+        const url = data.url || 'https://stock.prb9.top/';
+        titleEl.textContent = title;
+        summaryEl.textContent = summary || '点击查看完整分析';
+        linkEl.href = url;
+        if (updatedEl) {
+          const when = data.updatedAt || data.date || '';
+          updatedEl.textContent = when ? String(when).slice(0, 10) : '';
+        }
+      } catch (_) {
+        titleEl.textContent = 'STOCK 离线';
+        summaryEl.textContent = '稍后再试，或直接打开 stock.prb9.top';
+        linkEl.href = 'https://stock.prb9.top/';
+        if (updatedEl) updatedEl.textContent = '';
+      } finally {
+        root.classList.remove('is-loading');
+      }
+    }
+
+    async function loadTradesFeed() {
+      const fallback = Array.isArray(SITE_CONFIG.tradesFallback) ? SITE_CONFIG.tradesFallback : [];
+      try {
+        const data = await fetchFeedJson(feedUrls('trades', '/data/trades.json'));
+        const list = Array.isArray(data) ? data : (data.trades || []);
+        if (list.length) return list;
+      } catch (_) {}
+      return fallback;
     }
 
     function tickUptimeClock() {
@@ -2483,10 +2622,13 @@
       setInterval(renderPet, 60_000);
     }
 
-    function formatTradeDate(dateStr) {
+    function formatTradeDate(t) {
+      const dateStr = typeof t === 'string' ? t : (t?.date || '');
+      const timeStr = typeof t === 'object' && t?.time ? String(t.time) : '';
       const m = String(dateStr || '').match(/(\d{4})-(\d{2})-(\d{2})/);
       if (!m) return dateStr || '—';
-      return `${m[1]}-${m[2]}-${m[3]}`;
+      const day = `${m[1]}-${m[2]}-${m[3]}`;
+      return timeStr ? `${day} ${timeStr}` : day;
     }
 
     function formatTradePrice(n) {
@@ -2514,7 +2656,7 @@
       const side = (t.side || '').toLowerCase() === 'sell' ? 'sell' : 'buy';
       const status = tradeStatus(t);
       return `<div class="blotter-row">
-        <span class="d">${formatTradeDate(t.date)}</span>
+        <span class="d">${formatTradeDate(t)}</span>
         <span class="sym">${t.symbol || '—'}</span>
         <span class="side ${side}">${side === 'sell' ? 'SELL' : 'BUY'}</span>
         <span class="px">${formatTradePrice(t.price)}</span>
@@ -2541,8 +2683,8 @@
         <span class="kv dim"><b>${list.length}</b> FILLS</span>`;
     }
 
-    function bindTrades() {
-      const list = Array.isArray(SITE_CONFIG.trades) ? SITE_CONFIG.trades.slice() : [];
+    function bindTrades(list) {
+      const rows = Array.isArray(list) ? list.slice() : [];
       const previewN = SITE_CONFIG.tradesPreview || 5;
       const previewEl = document.getElementById('trade-preview');
       const emptyEl = document.getElementById('trade-empty');
@@ -2553,7 +2695,7 @@
       const blotter = previewEl?.closest('.blotter');
       if (!previewEl) return;
 
-      if (!list.length) {
+      if (!rows.length) {
         previewEl.innerHTML = '';
         if (statsEl) statsEl.hidden = true;
         if (blotter) blotter.hidden = true;
@@ -2565,13 +2707,13 @@
       if (blotter) blotter.hidden = false;
       if (statsEl) {
         statsEl.hidden = false;
-        statsEl.innerHTML = blotterStatsHtml(list);
+        statsEl.innerHTML = blotterStatsHtml(rows);
       }
-      previewEl.innerHTML = list.slice(0, previewN).map(tradeRowHtml).join('');
-      if (allEl) allEl.innerHTML = list.map(tradeRowHtml).join('');
+      previewEl.innerHTML = rows.slice(0, previewN).map(tradeRowHtml).join('');
+      if (allEl) allEl.innerHTML = rows.map(tradeRowHtml).join('');
       if (moreBtn) {
-        moreBtn.hidden = list.length <= previewN;
-        moreBtn.textContent = `FULL TAPE · ${list.length} FILLS →`;
+        moreBtn.hidden = rows.length <= previewN;
+        moreBtn.textContent = `FULL TAPE · ${rows.length} FILLS →`;
         moreBtn.onclick = () => modal?.classList.add('show');
       }
       document.getElementById('trade-modal-close')?.addEventListener('click', () => {
@@ -2670,7 +2812,8 @@
     document.getElementById('year').textContent = new Date().getFullYear();
     bindKuma();
     bindDouban();
-    loadVisitorCount();
+    initCfAnalytics();
+    loadStockTeaser();
     renderLaunchLabel();
     tickUptimeClock();
     setInterval(tickUptimeClock, 1000);
@@ -2683,7 +2826,7 @@
     loadHitokoto();
     document.getElementById('quote-refresh')?.addEventListener('click', loadHitokoto);
     bindArcade();
-    bindTrades();
+    loadTradesFeed().then(bindTrades);
     bindMixtape();
     bindKonami();
   </script>
