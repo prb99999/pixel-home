@@ -1,0 +1,8 @@
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    container_name: it-tools
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8788:80"
+    # 纯前端工具箱，无需额外 volume / 数据库
