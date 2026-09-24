@@ -3,18 +3,37 @@
 轻量开发者工具箱：[CorentinTh/it-tools](https://github.com/CorentinTh/it-tools)。  
 几乎是静态前端，2G 机器上很省。
 
-## 一键启动
+## 当前部署（VPS）
+
+- 目录：`/opt/it-tools/docker-compose.yml`
+- 容器：`corentinth/it-tools:latest`，监听 `127.0.0.1:8788`
+- 公网：Cloudflare Tunnel `prb9` 远程 ingress  
+  `tools.prb9.top` → `http://localhost:8788`
+
+> 该隧道在 Zero Trust 里是**远程管理**的：改 `/etc/cloudflared/config.yml` 会被 dashboard 配置覆盖。  
+> 增删 hostname 请在 Cloudflare One → Networks → Tunnels → `prb9` → Public Hostname，或用 API 更新 tunnel configuration。
+
+### 启停
+
+```bash
+cd /opt/it-tools
+docker compose up -d
+docker compose ps
+curl -sI http://127.0.0.1:8788/   # 应 200
+```
+
+### 本仓库一键启动（新机器）
 
 ```bash
 cd deploy/it-tools
 docker compose up -d
 ```
 
-默认监听本机 `127.0.0.1:8788`（不直接裸奔公网）。
+默认仍只绑本机 `127.0.0.1:8788`（不直接裸奔公网）。
 
-## 反代（Nginx 示例）
+## 反代备选（Nginx）
 
-DNS：`tools.prb9.top` → 你的服务器（Cloudflare 代理也可）。
+若不用 Tunnel，DNS：`tools.prb9.top` → 服务器后可用：
 
 ```nginx
 server {
