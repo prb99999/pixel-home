@@ -4,6 +4,8 @@
 
 内含同风格静态博客：`/blog/`（无需服务器常驻进程）。
 
+ITEM BAG 含 **TOOLS** → [IT-Tools](https://tools.prb9.top)（服务器 Docker 见 `deploy/it-tools/`）。
+
 ## 本地预览
 
 ```bash
