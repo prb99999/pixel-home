@@ -5,18 +5,23 @@
 
 ## 当前部署（VPS）
 
-- 目录：`/opt/it-tools/docker-compose.yml`
-- 容器：`corentinth/it-tools:latest`，监听 `127.0.0.1:8788`
+- 目录：`/opt/it-tools/`（`Dockerfile` + `docker-compose.yml`）
+- 镜像：基于 `corentinth/it-tools:latest` 构建为 `pixel-home/it-tools:zh`（**默认中文**）
+- 监听：`127.0.0.1:8788`
 - 公网：Cloudflare Tunnel `prb9` 远程 ingress  
   `tools.prb9.top` → `http://localhost:8788`
+
+官方自带 `zh` 语言包；Dockerfile 把默认 `locale:"en"` 改成 `locale:"zh"`。  
+页面右上角语言选择器仍可切回 English 等。
 
 > 该隧道在 Zero Trust 里是**远程管理**的：改 `/etc/cloudflared/config.yml` 会被 dashboard 配置覆盖。  
 > 增删 hostname 请在 Cloudflare One → Networks → Tunnels → `prb9` → Public Hostname，或用 API 更新 tunnel configuration。
 
-### 启停
+### 启停 / 更新
 
 ```bash
 cd /opt/it-tools
+docker compose build --pull
 docker compose up -d
 docker compose ps
 curl -sI http://127.0.0.1:8788/   # 应 200
@@ -26,7 +31,7 @@ curl -sI http://127.0.0.1:8788/   # 应 200
 
 ```bash
 cd deploy/it-tools
-docker compose up -d
+docker compose up -d --build
 ```
 
 默认仍只绑本机 `127.0.0.1:8788`（不直接裸奔公网）。
