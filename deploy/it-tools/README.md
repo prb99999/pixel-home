@@ -11,8 +11,13 @@
 - 公网：Cloudflare Tunnel `prb9` 远程 ingress  
   `tools.prb9.top` → `http://localhost:8788`
 
-官方自带 `zh` 语言包；Dockerfile 把默认 `locale:"en"` 改成 `locale:"zh"`。  
-页面右上角语言选择器仍可切回 English 等。
+官方自带 `zh` 语言包。Dockerfile 会：
+
+1. 把 vue-i18n 默认 `locale:"en"` 改成 `locale:"zh"`
+2. 在 `index.html` 里把 `localStorage.locale` 的缺省 / 旧英文值迁到 `zh`（应用会把语言写进 localStorage）
+3. 刷新 Service Worker，避免旧英文包被缓存
+
+右上角语言选择器仍可切到 English 等；首次（或从旧默认英文）会迁到中文，之后用户自选语言会保留。
 
 > 该隧道在 Zero Trust 里是**远程管理**的：改 `/etc/cloudflared/config.yml` 会被 dashboard 配置覆盖。  
 > 增删 hostname 请在 Cloudflare One → Networks → Tunnels → `prb9` → Public Hostname，或用 API 更新 tunnel configuration。

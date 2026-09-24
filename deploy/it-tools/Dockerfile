@@ -1,5 +1,6 @@
 FROM corentinth/it-tools:latest
 
-# Official build hardcodes locale:"en"; switch default to Chinese.
-# UI still has a language selector (中文 / English / …).
-RUN sed -i 's/locale:"en"/locale:"zh"/g' /usr/share/nginx/html/assets/index-*.js
+# Official build hardcodes locale:"en" and syncs it to localStorage("locale").
+# Flip default to zh, bust asset caches, and migrate stored "en" -> "zh" once.
+COPY inject-zh-default.sh /tmp/inject-zh-default.sh
+RUN chmod +x /tmp/inject-zh-default.sh && /tmp/inject-zh-default.sh && rm /tmp/inject-zh-default.sh
