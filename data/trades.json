@@ -1,4 +1,5 @@
 [
+  { "date": "2026-09-24", "time": "23:48", "side": "sell", "symbol": "LITE", "price": 923.79, "pnlPct": "+1.35%" },
   { "date": "2026-09-22", "time": "22:03", "side": "sell", "symbol": "NBIS", "price": 242.56, "pnlPct": "+7.33%" },
   { "date": "2026-09-21", "time": "21:36", "side": "buy", "symbol": "NBIS", "price": 226, "strat": "QNT" },
   { "date": "2026-09-18", "time": "23:51", "side": "buy", "symbol": "LITE", "price": 911.49, "strat": "QNT" },
