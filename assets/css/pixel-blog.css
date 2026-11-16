@@ -44,13 +44,15 @@ body {
   font-smooth: never;
   background-color: var(--bg-0);
   background-image:
-    radial-gradient(ellipse 90% 50% at 50% -5%, rgba(65, 166, 246, 0.18), transparent 55%),
-    radial-gradient(ellipse 50% 35% at 100% 80%, rgba(181, 80, 136, 0.15), transparent 50%),
-    radial-gradient(ellipse 40% 30% at 0% 100%, rgba(56, 183, 100, 0.12), transparent 45%),
-    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-  background-size: auto, auto, auto, 10px 10px, 10px 10px;
-  image-rendering: pixelated;
+    radial-gradient(1px 1px at 18px 28px, rgba(255,255,255,0.45), transparent),
+    radial-gradient(1px 1px at 90px 80px, rgba(167, 240, 112, 0.55), transparent),
+    radial-gradient(1px 1px at 160px 40px, rgba(65, 166, 246, 0.55), transparent),
+    radial-gradient(ellipse 80% 42% at 50% -8%, rgba(65, 166, 246, 0.16), transparent 58%),
+    radial-gradient(ellipse 40% 28% at 100% 100%, rgba(181, 80, 136, 0.12), transparent 50%),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 220px 200px, 220px 200px, 220px 200px, auto, auto, 32px 32px, 32px 32px;
+  image-rendering: auto;
 }
 
 a { color: var(--cyan); }
@@ -412,3 +414,14 @@ footer.site-foot a:hover { color: var(--lime); }
   }
   .topnav::-webkit-scrollbar { display: none; }
 }
+
+html { color-scheme: dark; scrollbar-color: var(--gold) var(--bg-0); }
+::selection { background: var(--pink); color: #fff; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border: 3px solid var(--bg-0);
+}
+.panel { box-shadow: 5px 5px 0 #050814; }
+.topbar { box-shadow: 0 0 0 3px var(--gold), 5px 5px 0 #050814; }

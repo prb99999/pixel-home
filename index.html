@@ -1467,6 +1467,394 @@
       .pet-sprite,
       footer.site-foot .coin { animation: none; }
     }
+
+    /* ========== HUD polish ==========
+       参考 NES.css 抬起式像素砖、RPG 物品栏色条、对话姓名牌，
+       以及 Undertale 式星空底。Fusion Pixel 的设计字号是 12px，
+       标签不再用 9–11px，避免发糊。
+    */
+    html { color-scheme: dark; scrollbar-color: var(--gold) var(--bg-0); }
+    ::selection { background: var(--pink); color: #fff; }
+    ::-webkit-scrollbar { width: 12px; height: 12px; }
+    ::-webkit-scrollbar-track { background: var(--bg-0); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border: 3px solid var(--bg-0);
+    }
+
+    body {
+      image-rendering: auto;
+      background-color: var(--bg-0);
+      background-image:
+        radial-gradient(1px 1px at 18px 28px, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1px 1px at 86px 110px, rgba(255,255,255,0.28), transparent),
+        radial-gradient(1.5px 1.5px at 150px 64px, rgba(200,255,69,0.75), transparent),
+        radial-gradient(1px 1px at 40px 150px, rgba(58,240,255,0.7), transparent),
+        radial-gradient(1px 1px at 200px 40px, rgba(255,78,200,0.55), transparent),
+        radial-gradient(ellipse 72% 38% at 50% -12%, rgba(58, 240, 255, 0.16), transparent 60%),
+        radial-gradient(ellipse 28% 22% at 100% 100%, rgba(255, 78, 200, 0.1), transparent 55%),
+        linear-gradient(rgba(58, 240, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 240, 255, 0.028) 1px, transparent 1px);
+      background-size:
+        220px 200px, 220px 200px, 220px 200px, 220px 200px, 220px 200px,
+        auto, auto, 32px 32px, 32px 32px;
+      background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 42%, transparent 46%, rgba(0, 0, 0, 0.42) 100%);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .wrap {
+      width: min(1460px, calc(100% - 36px));
+      padding: 16px 0 28px;
+    }
+    .grid { gap: 14px; }
+    .panel { scroll-margin-top: 120px; }
+    #profile.panel {
+      height: auto;
+      overflow: visible;
+    }
+    #profile .profile-row {
+      flex: none;
+      height: auto;
+      overflow: visible;
+    }
+    .avatar-col { align-self: start; }
+    .char-plate { flex: 0 0 auto; }
+    .char-plate .mail-btn { margin-top: 8px; }
+    #profile .world-map,
+    #profile .douban-status,
+    #profile .douban-strip { margin-top: 8px; }
+
+    .topbar {
+      position: sticky;
+      top: 10px;
+      z-index: 40;
+      padding: 8px 10px;
+      background:
+        linear-gradient(90deg, rgba(200, 255, 69, 0.1), transparent 32%),
+        var(--frame);
+      box-shadow: 0 0 0 3px var(--gold), 6px 6px 0 #050814;
+    }
+    .brand h1 {
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+    .meta-chips {
+      gap: 0;
+      padding: 0;
+      background: #070d1c;
+      border: 3px solid #0d0d0f;
+      box-shadow: 3px 3px 0 #050814;
+    }
+    .meta-chip {
+      background: transparent;
+      border: 0;
+      border-right: 2px solid var(--line);
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .meta-chip:last-child { border-right: 0; }
+    .topnav a {
+      font-size: 12px;
+      padding: 8px 10px;
+      box-shadow: 3px 3px 0 #050814;
+    }
+    .topnav a.is-on,
+    .topnav a.is-on:hover {
+      background: var(--lime);
+      color: #0d0d0f !important;
+      transform: none;
+      box-shadow: 2px 2px 0 #050814;
+    }
+
+    .nes-container.panel {
+      padding: 14px 14px 16px !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        5px 5px 0 #050814;
+    }
+    .panel-head {
+      margin: -14px -14px 12px;
+      padding: 10px 12px;
+      letter-spacing: 0.06em;
+      font-size: 12px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 42%),
+        var(--frame);
+      box-shadow: inset 4px 0 0 var(--gold);
+    }
+    .panel-head .tag { font-size: 12px; }
+    #profile .panel-head { box-shadow: inset 4px 0 0 var(--lime); }
+    #links .panel-head { box-shadow: inset 4px 0 0 var(--cyan); }
+    #status .panel-head { box-shadow: inset 4px 0 0 var(--green); }
+    #music .panel-head { box-shadow: inset 4px 0 0 var(--pink); }
+    #quote .panel-head { box-shadow: inset 4px 0 0 var(--gold); }
+    #trades .panel-head { box-shadow: inset 4px 0 0 var(--cyan); }
+    #arcade .panel-head { box-shadow: inset 4px 0 0 var(--orange); }
+
+    .name-row h2 {
+      font-size: 24px;
+      letter-spacing: 2px;
+      text-shadow: 3px 3px 0 #0d0d0f;
+    }
+    .trait { font-size: 12px; }
+    .char-plate .plate-row,
+    .char-plate .mail-btn { font-size: 12px; }
+    #dialog-text {
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    #dialog-text::after {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      margin-left: 6px;
+      vertical-align: -2px;
+      background: var(--gold);
+      animation: blink 1s steps(2) infinite;
+    }
+    .dialog {
+      max-height: 148px;
+      box-shadow:
+        4px 4px 0 #0d0d0f,
+        inset 0 0 0 3px rgba(58, 240, 255, 0.35);
+    }
+    .playtime .label,
+    .bars-panel .label,
+    .exp-row .label,
+    .world-map .label { font-size: 12px; }
+    .bar-fill,
+    .exp-fill { box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.28); }
+    .map-node { font-size: 12px; padding: 6px 8px; }
+
+    .inv-grid { counter-reset: item; }
+    .inv-slot {
+      min-height: 96px;
+      counter-increment: item;
+    }
+    .inv-slot::before {
+      content: counter(item, decimal-leading-zero);
+      position: absolute;
+      top: 5px;
+      left: 6px;
+      color: var(--mute);
+      font-size: 12px;
+    }
+    .inv-slot i {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      background: #10192e;
+      border: 3px solid #0d0d0f;
+      box-shadow:
+        inset -3px -3px 0 rgba(0, 0, 0, 0.45),
+        inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    }
+    .inv-slot .slot-name,
+    .inv-slot .qty { font-size: 12px; }
+    .inv-slot .qty {
+      padding: 1px 4px;
+      background: #070d1c;
+      border: 2px solid var(--gold);
+    }
+    .inv-slot.hue-green { --slot: var(--green); }
+    .inv-slot.hue-cyan { --slot: var(--cyan); }
+    .inv-slot.hue-orange { --slot: var(--orange); }
+    .inv-slot.hue-lime { --slot: var(--lime); }
+    .inv-slot.hue-pink { --slot: var(--pink); }
+    .inv-slot.hue-gold { --slot: var(--gold); }
+    .inv-slot[class*="hue-"] {
+      box-shadow: inset 0 -4px 0 var(--slot), inset 0 0 0 2px #1a1c2c;
+    }
+    .inv-slot[class*="hue-"] i { color: var(--slot); }
+    .inv-slot[class*="hue-"]:hover,
+    .inv-slot[class*="hue-"]:focus {
+      box-shadow:
+        inset 0 -4px 0 var(--slot),
+        inset 0 0 0 2px #1a1c2c,
+        4px 4px 0 #0d0d0f;
+    }
+
+    .kuma-caption,
+    .kuma-name,
+    .kuma-tip,
+    .stock-teaser-head,
+    .stock-teaser-head time,
+    .stock-teaser-link strong,
+    .stock-teaser-link span { font-size: 12px; }
+    .kuma-card { box-shadow: inset 3px 0 0 var(--green); }
+    .stock-teaser { box-shadow: inset 3px 0 0 var(--gold); }
+
+    #music .tape-card {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      gap: 8px;
+    }
+    .tape-shell {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 8px;
+      background: linear-gradient(180deg, #243044 0%, #121a2c 100%);
+      border: 3px solid #0d0d0f;
+      box-shadow:
+        inset 0 0 0 2px #3d5a88,
+        3px 3px 0 #050814;
+    }
+    .tape-label-row,
+    .tape-transport {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .tape-side {
+      background: var(--gold);
+      color: #0d0d0f;
+      border: 2px solid #0d0d0f;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+    .tape-holes,
+    .tape-screws { display: flex; gap: 6px; }
+    .tape-screws { flex: 1; justify-content: space-between; padding: 0 10px; }
+    .tape-holes i,
+    .tape-screws i {
+      width: 8px;
+      height: 8px;
+      background: #070d1c;
+      border: 2px solid #0d0d0f;
+      box-shadow: inset 2px 2px 0 #6a7ea8;
+    }
+    .tape-window {
+      display: grid;
+      grid-template-columns: 28px 1fr 28px;
+      gap: 8px;
+      align-items: center;
+      min-height: 54px;
+      padding: 6px 8px;
+      background: var(--well);
+      border: 3px solid #0d0d0f;
+      box-shadow: inset 0 0 0 2px var(--cyan);
+    }
+    .tape-window .tape-reel {
+      width: 22px;
+      height: 22px;
+      background:
+        linear-gradient(#070d1c, #070d1c) center / 8px 8px no-repeat,
+        conic-gradient(var(--gold) 0 25%, #16324a 0 50%, var(--gold) 0 75%, #16324a 0 100%);
+    }
+    .tape-window .tape-reel.rev {
+      animation-duration: 3.2s;
+      animation-direction: reverse;
+    }
+    .tape-shell .tape-skip {
+      width: 28px;
+      height: 28px;
+      color: #0d0d0f;
+      background: var(--gold);
+      border: 3px solid #0d0d0f;
+      box-shadow: 2px 2px 0 #050814;
+      font-size: 12px;
+    }
+    .tape-shell .tape-skip:hover { background: var(--lime); color: #0d0d0f; }
+    .tape-tracks {
+      background: #0d0d0f;
+      border: 3px solid var(--line);
+      padding: 4px;
+    }
+    .tape-tracks li { font-size: 12px; }
+    .tape-tracks li.on {
+      background: var(--gold);
+      border-color: #0d0d0f;
+    }
+    .tape-tracks li.on .n,
+    .tape-tracks li.on .t,
+    .tape-tracks li.on .t small { color: #0d0d0f; }
+
+    .quote-text { font-size: 16px; }
+    .quote-text::before,
+    .quote-text::after { content: none; }
+    .quote-text .q { color: var(--gold); }
+    .quote-box {
+      box-shadow: inset 0 0 0 2px rgba(255, 223, 42, 0.28);
+    }
+    .quote-meta,
+    .quote-meta .from,
+    .quote-refresh { font-size: 12px; }
+
+    .blotter-stats {
+      background: #0d0d0f;
+      border: 3px solid var(--line);
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    .blotter-head { font-size: 12px; }
+    .blotter-row:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
+    .blotter-row:hover { background: rgba(58, 240, 255, 0.07); }
+    .blotter-row .side {
+      display: inline-block;
+      width: max-content;
+      padding: 0 4px;
+      border: 2px solid currentColor;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .pet-sprite {
+      background:
+        linear-gradient(45deg, #10182c 25%, transparent 25%) 0 0 / 8px 8px,
+        linear-gradient(-45deg, #10182c 25%, transparent 25%) 0 0 / 8px 8px,
+        linear-gradient(45deg, transparent 75%, #10182c 75%) 0 0 / 8px 8px,
+        linear-gradient(-45deg, transparent 75%, #10182c 75%) 0 0 / 8px 8px,
+        #1c2844;
+    }
+    .arcade-card .label,
+    .pet-meta .line,
+    .oracle-hint { font-size: 12px; }
+
+    #easter .box,
+    #trade-modal .box {
+      box-shadow: 0 0 0 4px var(--gold), 8px 8px 0 #050814;
+    }
+
+    footer.site-foot {
+      margin-top: 16px;
+      padding: 12px 8px 2px;
+      border-top: 4px solid #0d0d0f;
+      box-shadow: inset 0 3px 0 var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 800px) {
+      body { background-attachment: scroll; }
+      .brand h1 { font-size: 16px; }
+      .topbar { top: 6px; }
+      .nes-container.panel { padding: 12px !important; }
+      .panel-head { margin: -12px -12px 10px; }
+      .name-row h2 { font-size: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #dialog-text::after,
+      .tape-window .tape-reel { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -1591,6 +1979,8 @@
               </div>
               <div class="exp-track"><div class="exp-fill" id="exp-fill"></div></div>
             </div>
+          </div>
+        </div>
             <div class="world-map" aria-label="world map">
               <div class="label">◆ WORLD MAP <em id="quest-line">QUEST · …</em></div>
               <div class="map-nodes">
@@ -1633,8 +2023,6 @@
                 <div id="idouban-book" class="idouban-mount pixel-idouban"></div>
               </div>
             </div>
-          </div>
-        </div>
       </section>
 
       <section id="links" class="nes-container is-dark panel">
@@ -1643,32 +2031,32 @@
           <span class="tag">SELECT</span>
         </div>
         <div class="inv-grid">
-          <a class="inv-slot" href="/blog/">
+          <a class="inv-slot hue-green" href="/blog/">
             <i class="fa-solid fa-scroll"></i>
             <span class="slot-name">BLOG</span>
             <span class="qty">log</span>
           </a>
-          <a class="inv-slot" href="https://drop.prb9.top" target="_blank" rel="noopener noreferrer">
+          <a class="inv-slot hue-cyan" href="https://drop.prb9.top" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-share-nodes"></i>
             <span class="slot-name">DROP</span>
             <span class="qty">p2p</span>
           </a>
-          <a class="inv-slot" href="https://pdf.prb9.top" target="_blank" rel="noopener noreferrer">
+          <a class="inv-slot hue-orange" href="https://pdf.prb9.top" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-file-pdf"></i>
             <span class="slot-name">PDF</span>
             <span class="qty">doc</span>
           </a>
-          <a class="inv-slot" href="https://tools.prb9.top" target="_blank" rel="noopener noreferrer" title="IT-Tools">
+          <a class="inv-slot hue-lime" href="https://tools.prb9.top" target="_blank" rel="noopener noreferrer" title="IT-Tools">
             <i class="fa-solid fa-screwdriver-wrench"></i>
             <span class="slot-name">TOOLS</span>
             <span class="qty">it</span>
           </a>
-          <a class="inv-slot" href="https://photo.prb9.top" target="_blank" rel="noopener noreferrer">
+          <a class="inv-slot hue-pink" href="https://photo.prb9.top" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-id-card"></i>
             <span class="slot-name">PHOTO</span>
             <span class="qty">id</span>
           </a>
-          <a class="inv-slot" href="https://stock.prb9.top" target="_blank" rel="noopener noreferrer">
+          <a class="inv-slot hue-gold" href="https://stock.prb9.top" target="_blank" rel="noopener noreferrer">
             <i class="fa-solid fa-chart-line"></i>
             <span class="slot-name">STOCK</span>
             <span class="qty">x1</span>
@@ -1750,16 +2138,24 @@
           <span class="tag" id="tape-title">W00 · MIX</span>
         </div>
         <div class="tape-card" id="tape-card">
-          <div class="tape-now" aria-live="polite">
-            <button type="button" class="tape-skip" id="tape-prev" aria-label="上一首">◀</button>
-            <div class="tape-now-body">
+          <div class="tape-shell" aria-live="polite">
+            <div class="tape-label-row">
+              <span class="tape-side">SIDE A</span>
+              <span class="tape-holes" aria-hidden="true"><i></i><i></i></span>
+            </div>
+            <div class="tape-window">
               <div class="tape-reel" aria-hidden="true"></div>
               <div class="tape-now-text">
                 <div class="track" id="tape-now-track">—</div>
                 <div class="artist" id="tape-now-artist"></div>
               </div>
+              <div class="tape-reel rev" aria-hidden="true"></div>
             </div>
-            <button type="button" class="tape-skip" id="tape-next" aria-label="下一首">▶</button>
+            <div class="tape-transport">
+              <button type="button" class="tape-skip" id="tape-prev" aria-label="上一首">◀</button>
+              <span class="tape-screws" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <button type="button" class="tape-skip" id="tape-next" aria-label="下一首">▶</button>
+            </div>
           </div>
           <ul class="tape-tracks" id="tape-tracks" aria-label="曲目列表"></ul>
         </div>
@@ -2296,23 +2692,31 @@
     }
 
     /** 一言 API（hitokoto.cn，纯前端） */
+    function quoteHtml(text) {
+      const safe = String(text || '……')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      return `<span class="q">「</span>${safe}\u2060<span class="q">」</span>`;
+    }
+
     async function loadHitokoto() {
       const textEl = document.getElementById('quote-text');
       const fromEl = document.getElementById('quote-from');
       if (!textEl) return;
-      textEl.textContent = '信号检索中…';
+      textEl.innerHTML = quoteHtml('信号检索中…');
       if (fromEl) fromEl.textContent = '…';
       try {
         const res = await fetch('https://v1.hitokoto.cn/?c=a&c=b&c=c&c=d&c=i&c=k');
         const data = await res.json();
-        textEl.textContent = data.hitokoto || '……';
+        textEl.innerHTML = quoteHtml(data.hitokoto || '……');
         if (fromEl) {
           fromEl.textContent = data.from_who
             ? `${data.from_who} · ${data.from || '未知'}`
             : (data.from || 'hitokoto');
         }
       } catch (_) {
-        textEl.textContent = '星空很安静，稍后再抽一句。';
+        textEl.innerHTML = quoteHtml('星空很安静，稍后再抽一句。');
         if (fromEl) fromEl.textContent = 'offline';
       }
     }
@@ -2797,6 +3201,24 @@
       render();
     }
 
+    function bindNavSpy() {
+      const links = [...document.querySelectorAll('.topnav a[href^="#"]')];
+      const setOn = (id) => {
+        links.forEach((a) => {
+          a.classList.toggle('is-on', a.getAttribute('href') === `#${id}`);
+        });
+      };
+      const fromHash = () => {
+        const id = location.hash.replace('#', '');
+        setOn(links.some((a) => a.getAttribute('href') === `#${id}`) ? id : 'profile');
+      };
+      links.forEach((a) => {
+        a.addEventListener('click', () => setOn(a.getAttribute('href').slice(1)));
+      });
+      fromHash();
+      window.addEventListener('hashchange', fromHash);
+    }
+
     function bindKonami() {
       const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
       let progress = 0;
@@ -2837,6 +3259,7 @@
     bindArcade();
     loadTradesFeed().then(bindTrades);
     bindMixtape();
+    bindNavSpy();
     bindKonami();
   </script>
 </body>
